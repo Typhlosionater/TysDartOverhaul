@@ -85,7 +85,7 @@ namespace TysDartOverhaul.Items.Weapons
 			<= 30 => null,
 			<= 60 => 28,
 			<= 90 => 22,
-			> 120 => 16
+			> 120 => 90
 		};
 	}
 }

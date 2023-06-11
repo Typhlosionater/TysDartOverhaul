@@ -1,6 +1,7 @@
 using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
 using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
@@ -153,8 +154,8 @@ namespace TysDartOverhaul.Items.Weapons
 
 		public override void Kill(int timeLeft) {
 			if (numCharges < 3) {
-				// TODO: Fizzle sound
-				return;
+                SoundEngine.PlaySound(SoundID.Item13, Projectile.position);
+                return;
 			}
 			
 			Owner.PickAmmo(Owner.HeldItem, out int projToShoot, out float speed, out int damage, out float knockback, out int usedAmmoItemID);
@@ -164,7 +165,8 @@ namespace TysDartOverhaul.Items.Weapons
 				velocity *= Main.rand.NextFloat(0.8f, 1f);
 				Projectile.NewProjectile(Owner.GetSource_ItemUse_WithPotentialAmmo(Owner.HeldItem, usedAmmoItemID), Owner.Center, velocity, projToShoot, damage, knockback, Projectile.owner);
 			}
-		}
+            SoundEngine.PlaySound(SoundID.Item92, Projectile.position);
+        }
 
 		private Asset<Texture2D> _glowmask;
 		private Asset<Texture2D> Glowmask => _glowmask ??= ModContent.Request<Texture2D>("TysDartOverhaul/Items/Weapons/PhasicDartEjector_HeldProjectile_Glowmask");
