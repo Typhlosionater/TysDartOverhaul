@@ -98,7 +98,6 @@ namespace TysDartOverhaul.Items.Weapons
 			Projectile.ignoreWater = true;
 
 			// Weapon stats
-			Projectile.friendly = true;
 			Projectile.hostile = false;
 			Projectile.penetrate = -1;
 			Projectile.DamageType = DamageClass.Ranged;
@@ -109,8 +108,6 @@ namespace TysDartOverhaul.Items.Weapons
 
 			MuzzleOffset = new Vector2(32f, -2f);
 		}
-
-		public override int? UseTimeOverride => 10;
 
 		private int numCharges = 0;
 

@@ -69,7 +69,6 @@ namespace TysDartOverhaul.Items.Weapons
 			Projectile.ignoreWater = true;
 
 			// Weapon stats
-			Projectile.friendly = true;
 			Projectile.hostile = false;
 			Projectile.penetrate = -1;
 			Projectile.DamageType = DamageClass.Ranged;
