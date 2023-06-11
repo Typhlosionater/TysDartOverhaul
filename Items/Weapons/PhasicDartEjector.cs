@@ -1,11 +1,14 @@
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
+using TysDartOverhaul.Helpers.Abstracts;
+using Terraria.GameContent;
 
 namespace TysDartOverhaul.Items.Weapons
 {
@@ -38,7 +41,7 @@ namespace TysDartOverhaul.Items.Weapons
 			Item.height = 28;
 			Item.useStyle = ItemUseStyleID.Shoot;
 			Item.noMelee = true;
-			//Item.noUseGraphic = true;
+			Item.noUseGraphic = true;
 
 			Item.value = Item.sellPrice(0, 10, 0, 0);
 			Item.rare = ItemRarityID.Yellow;
@@ -70,18 +73,132 @@ namespace TysDartOverhaul.Items.Weapons
 		}
 
 		//Stops the player consuming ammo from channeling
-		public override bool CanConsumeAmmo(Item ammo, Player player)
-		{
-			return false;
-		}
+		public override bool CanConsumeAmmo(Item ammo, Player player) => player.heldProj != -1;
 
 		//Channels PhasicDartEjectorProjectile instead of firing darts
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
-			// Creates our PhasicDartEjectorProjectile if needed
-			if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.PhasicDartEjectorProjectile>()] < 1)
-			{
-				Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.PhasicDartEjectorProjectile>(), Item.damage, Item.knockBack, player.whoAmI);
+			Projectile.NewProjectile(source, position, Vector2.Zero, ModContent.ProjectileType<PhasicDartEjector_HeldProjectile>(), damage, knockback, player.whoAmI);
+
+			return false;
+		}
+	}
+
+	public class PhasicDartEjector_HeldProjectile : HeldProjectile
+	{
+		private const float MaxChargeFlashTime = 50f;
+
+		public override void SetDefaults() {
+			// Base stats
+			Projectile.width = 46;
+			Projectile.height = 28;
+			Projectile.aiStyle = -1;
+			Projectile.tileCollide = false;
+			Projectile.ignoreWater = true;
+
+			// Weapon stats
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.penetrate = -1;
+			Projectile.DamageType = DamageClass.Ranged;
+
+			// HeldProjectile stats
+			HoldOutOffset = 16f;
+			RotationOffset = 0f;
+
+			MuzzleOffset = new Vector2(32f, -2f);
+		}
+
+		public override int? UseTimeOverride => 10;
+
+		private int numCharges = 0;
+
+		public override void Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
+			numCharges++;
+			numCharges = Math.Clamp(numCharges, 0, 9);
+			if (numCharges == 9f && GlowmaskFrame != 3) {
+				GlowmaskFrame = 3;
+				VisualsTimer = MaxChargeFlashTime;
+			}
+		}
+		
+		private ref float VisualsTimer => ref Projectile.localAI[0];
+
+		private int GlowmaskFrame {
+			get => (int)Projectile.localAI[1];
+			set => Projectile.localAI[1] = value;
+		}
+
+		public override void SafeAI() {
+			Projectile.rotation = Projectile.AngleTo(Main.MouseWorld);
+
+			if (numCharges >= 9) {
+				VisualsTimer--;
+				return;
+			}
+			
+			float numChargesNormalised = numCharges / 9f;
+			float timeForNextFrame = MathHelper.Lerp(15f, 4f, numChargesNormalised);
+
+			if (VisualsTimer >= timeForNextFrame) {
+				VisualsTimer = 0f;
+				GlowmaskFrame++;
+				if (GlowmaskFrame > 2) {
+					GlowmaskFrame = 0;
+				}
+			}
+			
+			VisualsTimer++;
+		}
+
+		public override void Kill(int timeLeft) {
+			if (numCharges < 3) {
+				// TODO: Fizzle sound
+				return;
+			}
+			
+			Owner.PickAmmo(Owner.HeldItem, out int projToShoot, out float speed, out int damage, out float knockback, out int usedAmmoItemID);
+			for (int i = 0; i < numCharges; i++) {
+				Vector2 velocity = Owner.Center.DirectionTo(Main.MouseWorld) * speed;
+				velocity = velocity.RotatedByRandom(MathHelper.ToRadians(20));
+				velocity *= Main.rand.NextFloat(0.8f, 1f);
+				Projectile.NewProjectile(Owner.GetSource_ItemUse_WithPotentialAmmo(Owner.HeldItem, usedAmmoItemID), Owner.Center, velocity, projToShoot, damage, knockback, Projectile.owner);
+			}
+		}
+
+		private Asset<Texture2D> _glowmask;
+		private Asset<Texture2D> Glowmask => _glowmask ??= ModContent.Request<Texture2D>("TysDartOverhaul/Items/Weapons/PhasicDartEjector_HeldProjectile_Glowmask");
+		private Asset<Texture2D> _flash;
+		private Asset<Texture2D> Flash => _flash ??= ModContent.Request<Texture2D>("TysDartOverhaul/Items/Weapons/PhasicDartEjector_HeldProjectile_Flash");
+
+		public override bool PreDraw(ref Color lightColor) {
+			Main.instance.LoadProjectile(Type);
+			Texture2D texture = TextureAssets.Projectile[Type].Value;
+
+			Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+			Rectangle sourceRect = texture.Frame();
+			Color drawColor = lightColor;
+			if (numCharges == 9 && VisualsTimer > 0f) {
+				float flashLerp = MathF.Pow(VisualsTimer / MaxChargeFlashTime, 2);
+				drawColor = Color.Lerp(lightColor, Color.White, flashLerp);
+			}
+			float rotation = Projectile.rotation;
+			Vector2 origin = sourceRect.Size() / 2f;
+			float scale = Projectile.scale;
+			SpriteEffects effects = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipVertically;
+			Main.EntitySpriteDraw(texture, drawPosition, sourceRect, drawColor, rotation, origin, scale, effects, 0);
+
+			Texture2D glowTexture = Glowmask.Value;
+			Rectangle glowSourceRect = glowTexture.Frame(1, 4, 0, GlowmaskFrame);
+			Main.EntitySpriteDraw(glowTexture, drawPosition, glowSourceRect, Color.White, Projectile.rotation, origin, Projectile.scale, effects, 0);
+
+			if (numCharges == 9 && VisualsTimer > 0f) {
+				Texture2D flashTexture = Flash.Value;
+				Rectangle flashSourceRect = flashTexture.Frame();
+				float flashLerp = MathF.Pow(VisualsTimer / MaxChargeFlashTime, 2);
+				Color flashDrawColor = Color.White * flashLerp;
+				Vector2 flashOrigin = flashSourceRect.Size() / 2f;
+				Main.EntitySpriteDraw(flashTexture, drawPosition, flashSourceRect, flashDrawColor, Projectile.rotation, flashOrigin, Projectile.scale, effects, 0);
 			}
 
 			return false;

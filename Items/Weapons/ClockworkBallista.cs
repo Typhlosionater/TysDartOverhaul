@@ -5,6 +5,7 @@ using Terraria.Audio;
 using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
+using TysDartOverhaul.Helpers.Abstracts;
 
 namespace TysDartOverhaul.Items.Weapons
 {
@@ -29,10 +30,9 @@ namespace TysDartOverhaul.Items.Weapons
 		{
 			Item.damage = 40;
 			Item.DamageType = DamageClass.Ranged;
-			Item.useTime = 6;
-			Item.useAnimation = 6;
+			Item.useTime = 32;
+			Item.useAnimation = 32;
 			Item.knockBack = 2.5f;
-
 			Item.channel = true;
 
 			Item.width = 78;
@@ -44,37 +44,48 @@ namespace TysDartOverhaul.Items.Weapons
 
 			Item.value = Item.sellPrice(0, 40, 0, 0);
 			Item.rare = ItemRarityID.Yellow;
-			Item.autoReuse = true;
-			Item.shoot = ModContent.ProjectileType<Projectiles.ClockworkBallistaProjectile>();
+			Item.shoot = ModContent.ProjectileType<ClockworkBallista_HeldProjectile>();
 			Item.shootSpeed = 16f;
 			Item.useAmmo = AmmoID.Dart;
 		}
 
-		public override bool CanConsumeAmmo(Item ammo, Player player)
-		{
-			for (int i = 0; i < Main.projectile.Length; i++)
-			{
-				Projectile projectile = Main.projectile[i];
-				if (projectile.type == ModContent.ProjectileType<Projectiles.ClockworkBallistaProjectile>() && projectile.owner == player.whoAmI)
-				{
-					return Main.rand.NextFloat() >= .5f ? projectile.ai[1] == 1f : false;
-				}
-			}
+		public override bool CanConsumeAmmo(Item ammo, Player player) => player.heldProj != -1;
 
+		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
+			Projectile.NewProjectile(source, position, Vector2.Zero, ModContent.ProjectileType<ClockworkBallista_HeldProjectile>(), damage, knockback, player.whoAmI);
+			
 			return false;
 		}
+	}
 
-		private int HeldProjectile => ModContent.ProjectileType<Projectiles.ClockworkBallistaProjectile>();
+	public class ClockworkBallista_HeldProjectile : HeldProjectile
+	{
+		public override void SetDefaults() {
+			// Base stats
+			Projectile.width = 78;
+			Projectile.height = 36;
+			Projectile.aiStyle = -1;
+			Projectile.tileCollide = false;
+			Projectile.ignoreWater = true;
 
-		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-		{
-			// Get position
-			Vector2 heldProjPosition = player.RotatedRelativePoint(player.MountedCenter, true);
+			// Weapon stats
+			Projectile.friendly = true;
+			Projectile.hostile = false;
+			Projectile.penetrate = -1;
+			Projectile.DamageType = DamageClass.Ranged;
 
-			Projectile.NewProjectile(source, heldProjPosition, Vector2.Zero, HeldProjectile, damage, knockback, player.whoAmI);
-
-			// Manually spawned our projectile so we need to return false
-			return false;
+			// HeldProjectile stats
+			HoldOutOffset = 32f;
+			RotationOffset = 0f;
+			
+			MuzzleOffset = new Vector2(32f, -2f);
 		}
+
+		public override int? UseTimeOverride => AI_FrameCount switch {
+			<= 30 => null,
+			<= 60 => 28,
+			<= 90 => 22,
+			> 120 => 16
+		};
 	}
 }
