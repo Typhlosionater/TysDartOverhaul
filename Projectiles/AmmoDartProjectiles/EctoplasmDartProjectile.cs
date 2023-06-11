@@ -27,7 +27,7 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
             Projectile.timeLeft = 600 * 2;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = 6;
-			Projectile.alpha = 80;
+			Projectile.Opacity = 0.2f;
 
 			Projectile.ignoreWater = false;
 			Projectile.tileCollide = true;
@@ -43,18 +43,18 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 		{
 			//Damage gets increased after each hit
 			Projectile.damage = (int)(Projectile.damage * 1.2f);
-		}
+        }
 
 		public override void OnHitPvp(Player target, int damage, bool crit)
 		{
 			//Damage gets increased after each hit
 			Projectile.damage = (int)(Projectile.damage * 1.2f);
-		}
+        }
 
 		public override void AI()
 		{
-			//Alpha is always 80
-			Projectile.alpha = 80;
+			//Gets more visible as it pierces
+			Projectile.Opacity = 0.25f + ((6 - Projectile.penetrate) / 20f);
 		}
 
 		public override Color? GetAlpha(Color lightColor)
@@ -73,7 +73,7 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 		public override void Kill(int timeLeft)
 		{
 			//Spawns dust on death
-			for (int i = 0; i < 4; i++)
+			for (int i = 0; i < (2 + Math.Ceiling((6 - Projectile.penetrate) / 2f)); i++)
 			{
 				int ImpactDust = Dust.NewDust(Projectile.Center, 0, 0, DustID.DungeonSpirit);
 				Main.dust[ImpactDust].velocity *= 1.5f;

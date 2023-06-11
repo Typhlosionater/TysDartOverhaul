@@ -49,7 +49,7 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 		public override void AI()
 		{
 			//Spawns secondary dart
-			if (Projectile.ai[0] == 0)
+			if (Projectile.ai[0] == 0 && Projectile.owner == Main.myPlayer)
             {
 				Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<VenomDartProjectile>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 1);
 				Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<VenomDartProjectile>(), Projectile.damage, Projectile.knockBack, Projectile.owner, -1);
