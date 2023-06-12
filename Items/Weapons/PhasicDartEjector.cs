@@ -73,9 +73,6 @@ namespace TysDartOverhaul.Items.Weapons
 			);
 		}
 
-		//Stops the player consuming ammo from channeling
-		public override bool CanConsumeAmmo(Item ammo, Player player) => player.heldProj != -1;
-
 		//Channels PhasicDartEjectorProjectile instead of firing darts
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
@@ -108,6 +105,8 @@ namespace TysDartOverhaul.Items.Weapons
 
 			MuzzleOffset = new Vector2(32f, -2f);
 		}
+
+		public override bool ConsumeAmmo => false;
 
 		private int numCharges = 0;
 

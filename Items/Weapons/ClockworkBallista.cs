@@ -49,7 +49,7 @@ namespace TysDartOverhaul.Items.Weapons
 			Item.useAmmo = AmmoID.Dart;
 		}
 
-		public override bool CanConsumeAmmo(Item ammo, Player player) => player.heldProj != -1;
+		public override bool CanConsumeAmmo(Item ammo, Player player) => player.heldProj != -1 && Main.rand.NextBool();
 
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
 			Projectile.NewProjectile(source, position, Vector2.Zero, ModContent.ProjectileType<ClockworkBallista_HeldProjectile>(), damage, knockback, player.whoAmI);
@@ -84,7 +84,7 @@ namespace TysDartOverhaul.Items.Weapons
 			<= 30 => null,
 			<= 60 => 28,
 			<= 90 => 22,
-			> 120 => 90
+			> 90 => 16
 		};
 	}
 }

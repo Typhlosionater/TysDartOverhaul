@@ -46,6 +46,8 @@ public abstract class HeldProjectile : ModProjectile
 		}
 	}
 
+	public virtual bool ConsumeAmmo => true;
+
 	public virtual void Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
 		if (Collision.CanHit(player.Center, 0, 0, position, 0, 0)) {
 			Projectile.NewProjectileDirect(source, position, velocity, type, damage, knockback, player.whoAmI);
@@ -91,7 +93,7 @@ public abstract class HeldProjectile : ModProjectile
 
 		// Actually call our shoot hook
 		if (doShoot && Projectile.owner == Main.myPlayer) {
-			Owner.PickAmmo(Owner.HeldItem, out int projToShoot, out float speed, out int damage, out float knockback, out int usedAmmoItemId);
+			Owner.PickAmmo(Owner.HeldItem, out int projToShoot, out float speed, out int damage, out float knockback, out int usedAmmoItemId, !ConsumeAmmo);
 
 			// Get some other params
 			EntitySource_ItemUse_WithAmmo source = new(Owner, Owner.HeldItem, usedAmmoItemId);
