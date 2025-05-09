@@ -16,15 +16,10 @@ namespace TysDartOverhaul.Projectiles.ConvertedDartProjectiles
 			Projectile.width = 10;
 			Projectile.height = 10;
 			Projectile.friendly = true; 
-            Projectile.hostile = false;
 
             Projectile.timeLeft = 600;
             Projectile.DamageType = DamageClass.Ranged;
-            Projectile.penetrate = 1;
 			Projectile.alpha = 255;
-
-			Projectile.ignoreWater = false;
-			Projectile.tileCollide = true;
 		}
 
 		public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)

@@ -16,15 +16,11 @@ namespace TysDartOverhaul.Projectiles.ConvertedDartProjectiles
 			Projectile.width = 14;
 			Projectile.height = 14;
 			Projectile.friendly = true; 
-            Projectile.hostile = false;
 
             Projectile.timeLeft = 600;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = -1;
 			Projectile.alpha = 80;
-
-			Projectile.ignoreWater = false;
-			Projectile.tileCollide = true;
 
 			Projectile.usesLocalNPCImmunity = true;
 			Projectile.localNPCHitCooldown = 10;
@@ -38,7 +34,7 @@ namespace TysDartOverhaul.Projectiles.ConvertedDartProjectiles
 
 		public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
 		{
-			//Inflicts 15 seconds of on fire! on hit enemies
+			//Inflicts 15 seconds of hellfire on hit enemies
 			target.AddBuff(BuffID.OnFire3, 15 * 60);
 
 			//Explode if it has not yet
@@ -50,7 +46,7 @@ namespace TysDartOverhaul.Projectiles.ConvertedDartProjectiles
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            //Inflicts 15 seconds of on fire! on hit players
+            //Inflicts 15 seconds of hellfire on hit players
             target.AddBuff(BuffID.OnFire3, 15 * 60);
 
 			//Explode if it has not yet

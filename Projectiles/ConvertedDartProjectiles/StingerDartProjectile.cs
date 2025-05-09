@@ -17,15 +17,11 @@ namespace TysDartOverhaul.Projectiles.ConvertedDartProjectiles
 			Projectile.width = 10;
 			Projectile.height = 10;
 			Projectile.friendly = true; 
-            Projectile.hostile = false;
 
             Projectile.timeLeft = 600;
             Projectile.DamageType = DamageClass.Ranged;
-            Projectile.penetrate = 1;
 			Projectile.alpha = 255;
 
-			Projectile.ignoreWater = false;
-			Projectile.tileCollide = true;
 			Projectile.scale = 0.9f;
 		}
 
@@ -37,7 +33,7 @@ namespace TysDartOverhaul.Projectiles.ConvertedDartProjectiles
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            //Inflicts 10 seconds on poisoed on hit players
+            //Inflicts 10 seconds on poisoned on hit players
             target.AddBuff(BuffID.Poisoned, 10 * 60);
 		}
 

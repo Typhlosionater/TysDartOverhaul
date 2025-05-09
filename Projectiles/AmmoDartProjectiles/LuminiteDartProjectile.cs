@@ -24,15 +24,11 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 			Projectile.height = 14;
 			Projectile.aiStyle = 1;
 			Projectile.friendly = true; 
-            Projectile.hostile = false;
 
-            Projectile.timeLeft = 600 * 3;
+            Projectile.timeLeft = 1800;
             Projectile.DamageType = DamageClass.Ranged;
-            Projectile.penetrate = 1;
 			Projectile.alpha = 255;
 
-			Projectile.ignoreWater = false;
-			Projectile.tileCollide = true;
 			AIType = ProjectileID.PoisonDartBlowgun;
 
 			Projectile.extraUpdates = 2;

@@ -18,16 +18,12 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 			Projectile.height = 14;
 			Projectile.aiStyle = 1;
 			Projectile.friendly = true; 
-            Projectile.hostile = false;
 
             Projectile.timeLeft = 600 * 2;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = 6;
 			Projectile.Opacity = 0.3f;
 
-
-            Projectile.ignoreWater = false;
-			Projectile.tileCollide = true;
 			AIType = ProjectileID.PoisonDartBlowgun;
 
 			Projectile.extraUpdates = 1;
@@ -41,6 +37,7 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 			//Damage gets increased after each hit
 			Projectile.damage = (int)(Projectile.damage * 1.2f);
             Projectile.velocity *= 1.1f;
+			Projectile.netUpdate = true;
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
@@ -48,6 +45,7 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 			//Damage gets increased after each hit
 			Projectile.damage = (int)(Projectile.damage * 1.2f);
 			Projectile.velocity *= 1.1f;
+            Projectile.netUpdate = true;
         }
 
 		public override void AI()

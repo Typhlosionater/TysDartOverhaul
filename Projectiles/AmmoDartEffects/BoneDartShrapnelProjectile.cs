@@ -21,17 +21,9 @@ namespace TysDartOverhaul.Projectiles.AmmoDartEffects
 			Projectile.width = 6;
 			Projectile.height = 6;
 			Projectile.aiStyle = 1;
-			Projectile.friendly = false;
-            Projectile.hostile = false;
 
             Projectile.timeLeft = 15;
             Projectile.DamageType = DamageClass.Ranged;
-            Projectile.penetrate = 1;
-			Projectile.alpha = 0;
-
-			Projectile.ignoreWater = false;
-			Projectile.tileCollide = true;
-			Projectile.scale = 1f;
 		}
 
 		public override void AI()
