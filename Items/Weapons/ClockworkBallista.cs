@@ -16,13 +16,6 @@ namespace TysDartOverhaul.Items.Weapons
 			return ModContent.GetInstance<TysDartOverhaulConfig>().AddNewDartguns;
 		}
 
-		public override void SetStaticDefaults()
-		{
-			ItemID.Sets.gunProj[Type] = true; // Seems like all this does is setup PickAmmo correctly
-
-			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
-		}
-
 		public override void SetDefaults()
 		{
 			Item.damage = 40;
@@ -30,58 +23,72 @@ namespace TysDartOverhaul.Items.Weapons
 			Item.useTime = 32;
 			Item.useAnimation = 32;
 			Item.knockBack = 2.5f;
-			Item.channel = true;
 
 			Item.width = 78;
 			Item.height = 36;
 			Item.useStyle = ItemUseStyleID.Shoot;
 			Item.noMelee = true;
-			Item.noUseGraphic = true;
+			Item.autoReuse = true;
 			//Item.UseSound = SoundID.Item36;
 
 			Item.value = Item.sellPrice(0, 40, 0, 0);
 			Item.rare = ItemRarityID.Yellow;
-			Item.shoot = ModContent.ProjectileType<ClockworkBallista_HeldProjectile>();
+			Item.shoot = 10;
 			Item.shootSpeed = 16f;
 			Item.useAmmo = AmmoID.Dart;
 		}
 
-		public override bool CanConsumeAmmo(Item ammo, Player player) => player.heldProj != -1;
+		public override bool? UseItem(Player player)
+		{
+			player.GetModPlayer<ClockworkBallistaPlayer>().UsedItem();
 
-		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
-			Projectile.NewProjectile(source, position, Vector2.Zero, ModContent.ProjectileType<ClockworkBallista_HeldProjectile>(), damage, knockback, player.whoAmI);
-			
-			return false;
+			return base.UseItem(player);
 		}
 	}
 
-	public class ClockworkBallista_HeldProjectile : HeldProjectile
+	public class ClockworkBallistaPlayer : ModPlayer
 	{
-		public override void SetDefaults() {
-			// Base stats
-			Projectile.width = 78;
-			Projectile.height = 36;
-			Projectile.aiStyle = -1;
-			Projectile.tileCollide = false;
-			Projectile.ignoreWater = true;
+		private const int MaxRampUp = 8;
+		private const int MaxInitialRampDownDelay = 45;
+		private const int MaxRampDownDelay = 15;
 
-			// Weapon stats
-			Projectile.hostile = false;
-			Projectile.penetrate = -1;
-			Projectile.DamageType = DamageClass.Ranged;
+		private int _rampUp = 0;
+		private int _rampDownDelayTimer = 0;
 
-			// HeldProjectile stats
-			HoldOutOffset = 32f;
-			RotationOffset = 0f;
-			
-			MuzzleOffset = new Vector2(32f, -2f);
+		public void UsedItem()
+		{
+			_rampUp = int.Clamp(_rampUp + 1, 0, MaxRampUp);
+			_rampDownDelayTimer = MaxInitialRampDownDelay;
 		}
 
-		public override int? UseTimeOverride => AI_FrameCount switch {
-			<= 30 => null,
-			<= 60 => 28,
-			<= 90 => 22,
-			> 90 => 16
-		};
+		public override void PostUpdateMiscEffects()
+		{
+			_rampDownDelayTimer--;
+			if (_rampDownDelayTimer <= 0)
+			{
+				_rampUp = int.Clamp(_rampUp - 1, 0, MaxRampUp);
+				_rampDownDelayTimer = MaxRampDownDelay;
+			}
+
+			//Main.NewText("ramp: " + _rampUp);
+			//Main.NewText("delay: " + _rampDownDelayTimer);
+		}
+
+		public override float UseTimeMultiplier(Item item)
+		{
+			if (item.ModItem is not ClockworkBallista)
+			{
+				return base.UseTimeMultiplier(item);
+			}
+
+			return _rampUp switch
+			{
+				>= 0 and < 2 => 1f,
+				>= 2 and < 4 => 0.85f,
+				>= 4 and < 6 => 0.55f,
+				>= 6 and < 8 => 0.35f,
+				_ => 0.15f,
+			};
+		}
 	}
 }
