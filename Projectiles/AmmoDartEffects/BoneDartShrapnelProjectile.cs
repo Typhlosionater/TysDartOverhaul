@@ -13,8 +13,6 @@ namespace TysDartOverhaul.Projectiles.AmmoDartEffects
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Bone Shrapnel");
-
 			Main.projFrames[Projectile.type] = 6;
 		}
 

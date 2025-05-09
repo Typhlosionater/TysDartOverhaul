@@ -2,20 +2,16 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 
 namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 {
 	public class EctoplasmDartProjectile : ModProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Ectoplasm Dart");
-		}
-
 		public override void SetDefaults()
 		{
 			Projectile.width = 14;
@@ -27,9 +23,10 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
             Projectile.timeLeft = 600 * 2;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = 6;
-			Projectile.Opacity = 0.2f;
+			Projectile.Opacity = 0.3f;
 
-			Projectile.ignoreWater = false;
+
+            Projectile.ignoreWater = false;
 			Projectile.tileCollide = true;
 			AIType = ProjectileID.PoisonDartBlowgun;
 
@@ -39,22 +36,24 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 			Projectile.localNPCHitCooldown = 10;
 		}
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
 		{
 			//Damage gets increased after each hit
 			Projectile.damage = (int)(Projectile.damage * 1.2f);
+            Projectile.velocity *= 1.1f;
         }
 
-		public override void OnHitPvp(Player target, int damage, bool crit)
-		{
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
 			//Damage gets increased after each hit
 			Projectile.damage = (int)(Projectile.damage * 1.2f);
+			Projectile.velocity *= 1.1f;
         }
 
 		public override void AI()
 		{
 			//Gets more visible as it pierces
-			Projectile.Opacity = 0.25f + ((6 - Projectile.penetrate) / 20f);
+			Projectile.Opacity = 0.3f + ((6 - Projectile.penetrate) / 20f);
 		}
 
 		public override Color? GetAlpha(Color lightColor)
@@ -70,7 +69,7 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 			return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
 		}
 
-		public override void Kill(int timeLeft)
+		public override void OnKill(int timeLeft)
 		{
 			//Spawns dust on death
 			for (int i = 0; i < (2 + Math.Ceiling((6 - Projectile.penetrate) / 2f)); i++)

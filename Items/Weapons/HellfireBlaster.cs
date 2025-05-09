@@ -17,9 +17,6 @@ namespace TysDartOverhaul.Items.Weapons
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Hellfire Blaster");
-			Tooltip.SetDefault("Fires explosive blazing darts");
-
 			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
 		}
 

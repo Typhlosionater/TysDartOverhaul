@@ -14,8 +14,6 @@ namespace TysDartOverhaul.Items.Ammo
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Dart");
-
 			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
 		}
 

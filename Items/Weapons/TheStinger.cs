@@ -17,9 +17,6 @@ namespace TysDartOverhaul.Items.Weapons
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("The Stinger");
-			Tooltip.SetDefault("Rapidly fires poisonous stinger darts\n25% chance to not consume ammo");
-
 			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
 		}
 

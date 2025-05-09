@@ -19,8 +19,6 @@ namespace TysDartOverhaul.Items.Weapons
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Triple Dart Glove");
-
 			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
 		}
 

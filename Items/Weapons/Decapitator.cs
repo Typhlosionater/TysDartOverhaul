@@ -17,9 +17,6 @@ namespace TysDartOverhaul.Items.Weapons
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Decapitator");
-			Tooltip.SetDefault("Fires two parallel darts");
-
 			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
 		}
 

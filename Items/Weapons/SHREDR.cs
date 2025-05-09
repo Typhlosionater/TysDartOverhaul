@@ -17,9 +17,6 @@ namespace TysDartOverhaul.Items.Weapons
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("S.H.R.E.D.R.");
-			Tooltip.SetDefault("50% chance to not consume ammo");
-
 			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
 		}
 

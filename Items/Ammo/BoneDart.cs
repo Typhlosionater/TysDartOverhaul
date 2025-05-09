@@ -14,9 +14,6 @@ namespace TysDartOverhaul.Items.Ammo
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Bone Dart");
-			Tooltip.SetDefault("Shatters into deadly shrapnel");
-
 			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
 		}
 

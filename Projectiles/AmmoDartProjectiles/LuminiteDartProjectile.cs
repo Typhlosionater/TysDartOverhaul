@@ -14,8 +14,6 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Luminite Dart");
-
 			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
 			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 		}
@@ -66,7 +64,7 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 			return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
 		}
 
-		public override void Kill(int timeLeft)
+		public override void OnKill(int timeLeft)
 		{
 			//Lunar Explosion effect
 			SoundEngine.PlaySound(SoundID.Item14, Projectile.position);

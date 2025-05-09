@@ -14,8 +14,8 @@ namespace TysDartOverhaul.Items.Ammo
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Venom Dart");
-			Tooltip.SetDefault("Splits into twin helical darts");
+			// DisplayName.SetDefault("Venom Dart");
+			// Tooltip.SetDefault("Splits into twin helical darts");
 
 			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
 		}

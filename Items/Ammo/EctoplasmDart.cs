@@ -15,9 +15,6 @@ namespace TysDartOverhaul.Items.Ammo
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Ectoplasm Dart");
-			Tooltip.SetDefault("Increases in damage as it pierces");
-
 			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
 		}
 

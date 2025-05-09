@@ -8,6 +8,7 @@ using System.Collections.Generic;
 
 using TysDartOverhaul.Items.Weapons;
 using TysDartOverhaul.Items.Ammo;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace TysDartOverhaul.NPCs
 {
@@ -17,13 +18,13 @@ namespace TysDartOverhaul.NPCs
 
 		public bool KilledByDart;
 
-        public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
         {
-			if ((projectile.type == ModContent.ProjectileType<Projectiles.AmmoDartProjectiles.DartProjectile>()) && (damage > npc.life))
-			{
-				KilledByDart = true;
-			}
-		}
+            if ((projectile.type == ModContent.ProjectileType<Projectiles.AmmoDartProjectiles.DartProjectile>()) && !npc.active)
+            {
+                KilledByDart = true;
+            }
+        }
 
         //New Loot Drops
         public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
@@ -75,8 +76,9 @@ namespace TysDartOverhaul.NPCs
 			}
 		}
 
+		/*
 		//New Sold Items
-		public override void SetupShop(int type, Chest shop, ref int nextSlot)
+		public override void ModifyActiveShop(NPC npc, string shopName, Item[] items)
 		{
 			//If modded darts are available
 			if (ModContent.GetInstance<TysDartOverhaulConfig>().AddNewDarts)
@@ -169,7 +171,7 @@ namespace TysDartOverhaul.NPCs
 					shop.item = inventory.ToArray();
 				}
 			}
-		}
+		}*/
 
 		//Travelling merchant sold items
 		public override void SetupTravelShop(int[] shop, ref int nextSlot)

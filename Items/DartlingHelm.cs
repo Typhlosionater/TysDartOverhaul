@@ -15,8 +15,6 @@ namespace TysDartOverhaul.Items
 
         public override void SetStaticDefaults() 
 		{
-			DisplayName.SetDefault("Dartling Helm");
-
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
 
             ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = true;

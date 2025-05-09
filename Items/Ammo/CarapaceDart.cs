@@ -14,9 +14,6 @@ namespace TysDartOverhaul.Items.Ammo
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Carapace Dart");
-			Tooltip.SetDefault("Ignores a substantial amount of enemy defense");
-
 			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
 		}
 

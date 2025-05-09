@@ -11,11 +11,6 @@ namespace TysDartOverhaul.Projectiles.ConvertedDartProjectiles
 {
 	public class QueensStingerDartProjectile : ModProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Queen's Stinger");
-		}
-
 		public override void SetDefaults()
 		{
 			Projectile.width = 10;
@@ -32,16 +27,16 @@ namespace TysDartOverhaul.Projectiles.ConvertedDartProjectiles
 			Projectile.tileCollide = true;
 		}
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
 		{
 			//Inflicts 10 seconds on venom on hit enemies
 			target.AddBuff(BuffID.Venom, 10 * 60);
 		}
 
-		public override void OnHitPvp(Player target, int damage, bool crit)
-		{
-			//Inflicts 10 seconds on venom on hit players
-			target.AddBuff(BuffID.Venom, 10 * 60);
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            //Inflicts 10 seconds on venom on hit players
+            target.AddBuff(BuffID.Venom, 10 * 60);
 		}
 
         public override void AI()
@@ -63,7 +58,7 @@ namespace TysDartOverhaul.Projectiles.ConvertedDartProjectiles
 			return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
 		}
 
-		public override void Kill(int timeLeft)
+		public override void OnKill(int timeLeft)
 		{
 			//Spawns dust and plays sound
 			for (int i = 0; i < 3; i++)

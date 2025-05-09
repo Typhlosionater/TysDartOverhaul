@@ -18,9 +18,6 @@ namespace TysDartOverhaul.Items.Weapons
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Clockwork Ballista");
-			Tooltip.SetDefault("50% chance to not consume darts");
-
 			ItemID.Sets.gunProj[Type] = true; // Seems like all this does is setup PickAmmo correctly
 
 			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
@@ -84,7 +81,7 @@ namespace TysDartOverhaul.Items.Weapons
 			<= 30 => null,
 			<= 60 => 28,
 			<= 90 => 22,
-			> 120 => 90
+			> 90 => 16
 		};
 	}
 }

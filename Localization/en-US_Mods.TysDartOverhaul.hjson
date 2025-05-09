@@ -1,0 +1,172 @@
+Items: {
+	BoneDart: {
+		DisplayName: Bone Dart
+		Tooltip: Shatters into deadly shrapnel
+	}
+
+	CarapaceDart: {
+		DisplayName: Carapace Dart
+		Tooltip: Ignores a substantial amount of enemy defense
+	}
+
+	ChlorophyteDart: {
+		DisplayName: Chlorophyte Dart
+		Tooltip: Produces damaging spore clouds
+	}
+
+	Dart: {
+		DisplayName: Dart
+		Tooltip: ""
+	}
+
+	EctoplasmDart: {
+		DisplayName: Ectoplasm Dart
+		Tooltip: Increases in damage as it pierces
+	}
+
+	EndlessDartCase: {
+		DisplayName: Endless Dart Case
+		Tooltip: ""
+	}
+
+	FeatherDart: {
+		DisplayName: Feather Dart
+		Tooltip: Unaffected by gravity
+	}
+
+	LuminiteDart: {
+		DisplayName: Luminite Dart
+		Tooltip: "'Bold of you to stand in my way...'"
+	}
+
+	VenomDart: {
+		DisplayName: Venom Dart
+		Tooltip: Splits into twin helical darts
+	}
+
+	DartlingHelm: {
+		DisplayName: Dartling Helm
+		Tooltip: ""
+	}
+
+	AirRifle: {
+		DisplayName: Air Rifle
+		Tooltip: ""
+	}
+
+	AncientCrossbow: {
+		DisplayName: Ancient Crossbow
+		Tooltip: ""
+	}
+
+	Atlatl: {
+		DisplayName: Atlatl
+		Tooltip: ""
+	}
+
+	ClockworkBallista: {
+		DisplayName: Clockwork Ballista
+		Tooltip: 50% chance to not consume darts
+	}
+
+	DartGlove: {
+		DisplayName: Dart Glove
+		Tooltip: ""
+	}
+
+	DartlingGun: {
+		DisplayName: Dartling Gun
+		Tooltip: 50% chance to not consume darts
+	}
+
+	Decapitator: {
+		DisplayName: Decapitator
+		Tooltip: Fires two parallel darts
+	}
+
+	HellfireBlaster: {
+		DisplayName: Hellfire Blaster
+		Tooltip: Fires explosive blazing darts
+	}
+
+	PhasicDartEjector: {
+		DisplayName: Phasic Dart Ejector
+		Tooltip: Charges up a blast of up to 9 darts
+	}
+
+	PoisonDartFrog: {
+		DisplayName: Poison Dart Frog
+		Tooltip: Fires a spread of poisonous darts
+	}
+
+	SHREDR: {
+		DisplayName: S.H.R.E.D.R.
+		Tooltip: 50% chance to not consume ammo
+	}
+
+	StingOperation: {
+		DisplayName: Sting Operation
+		Tooltip:
+			'''
+			Fires venomous stinger darts at lightning speed
+			33% chance to not consume ammo
+			'''
+	}
+
+	TheStinger: {
+		DisplayName: The Stinger
+		Tooltip:
+			'''
+			Rapidly fires poisonous stinger darts
+			25% chance to not consume ammo
+			'''
+	}
+
+	TripleDartGlove: {
+		DisplayName: Triple Dart Glove
+		Tooltip: ""
+	}
+}
+
+Projectiles: {
+	ClockworkBallista_HeldProjectile.DisplayName: Clockwork Ballista Held Projectile
+	PhasicDartEjector_HeldProjectile.DisplayName: Phasic Dart Ejector Held Projectile
+	BoneDartShrapnelProjectile.DisplayName: Bone Shrapnel
+	BoneDartProjectile.DisplayName: Bone Dart
+	CarapaceDartProjectile.DisplayName: Carapace Dart
+	ChlorophyteDartProjectile.DisplayName: Chlorophyte Dart
+	DartProjectile.DisplayName: Dart
+	EctoplasmDartProjectile.DisplayName: Ectoplasm Dart
+	FeatherDartProjectile.DisplayName: Feather Dart
+	LuminiteDartProjectile.DisplayName: Luminite Dart
+	VenomDartProjectile.DisplayName: Venom Dart
+	BlazingDartProjectile.DisplayName: Blazing Dart
+	QueensStingerDartProjectile.DisplayName: Queen's Stinger
+	StingerDartProjectile.DisplayName: Stinger Dart
+}
+
+Configs: {
+	TysDartOverhaulConfig: {
+		DisplayName: Mod Config
+
+		AddNewDartguns: {
+			Label: Add new modded dartguns
+			Tooltip: Adds new modded dartguns to various points in progression. (Enabled by default)
+		}
+
+		AddNewDarts: {
+			Label: Add new modded darts
+			Tooltip: Adds a variety of new modded dart ammunition types. (Enabled by default)
+		}
+
+		AddNewAccessories: {
+			Label: Add new modded dart accessories
+			Tooltip: Adds new modded dart subclass accessories. (Enabled by default)
+		}
+
+		VanillaDartChanges: {
+			Label: Changes to vanilla darts
+			Tooltip: Changes ichor dart and crystal darts to use local immunity frames and cursed dart flames to use static immunity frames. (Enabled by default)
+		}
+	}
+}

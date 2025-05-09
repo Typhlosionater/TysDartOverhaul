@@ -11,11 +11,6 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 {
 	public class FeatherDartProjectile : ModProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Feather Dart");
-		}
-
 		public override void SetDefaults()
 		{
 			Projectile.width = 14;
@@ -41,7 +36,7 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 			return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
 		}
 
-		public override void Kill(int timeLeft)
+		public override void OnKill(int timeLeft)
 		{
 			//Spawns dust
 			for (int i = 0; i < 4; i++)

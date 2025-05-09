@@ -11,11 +11,6 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 {
 	public class BoneDartProjectile : ModProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Bone Dart");
-		}
-
 		public override void SetDefaults()
 		{
 			Projectile.width = 14;
@@ -36,7 +31,7 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 
 		int HitEnemy = -1;
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
 			//Feeds enemy that caused shrapnel into shrapnel projectile
 			HitEnemy = target.whoAmI;
@@ -49,7 +44,7 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 			return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
 		}
 
-		public override void Kill(int timeLeft)
+		public override void OnKill(int timeLeft)
 		{
 			//Shrapnel effect
 			int numberProjectiles = 2 + Main.rand.Next(2);

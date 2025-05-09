@@ -11,11 +11,6 @@ namespace TysDartOverhaul.Projectiles.ConvertedDartProjectiles
 {
 	public class BlazingDartProjectile : ModProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Blazing Dart");
-		}
-
 		public override void SetDefaults()
 		{
 			Projectile.width = 14;
@@ -41,7 +36,7 @@ namespace TysDartOverhaul.Projectiles.ConvertedDartProjectiles
 			return new Color(200, 200, 200, 25);
 		}
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
 		{
 			//Inflicts 15 seconds of on fire! on hit enemies
 			target.AddBuff(BuffID.OnFire3, 15 * 60);
@@ -53,10 +48,10 @@ namespace TysDartOverhaul.Projectiles.ConvertedDartProjectiles
 			}
 		}
 
-		public override void OnHitPvp(Player target, int damage, bool crit)
-		{
-			//Inflicts 15 seconds of on fire! on hit players
-			target.AddBuff(BuffID.OnFire3, 15 * 60);
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            //Inflicts 15 seconds of on fire! on hit players
+            target.AddBuff(BuffID.OnFire3, 15 * 60);
 
 			//Explode if it has not yet
 			if (Projectile.timeLeft > 3)
@@ -114,7 +109,7 @@ namespace TysDartOverhaul.Projectiles.ConvertedDartProjectiles
 			}
 		}
 
-		public override void Kill(int timeLeft)
+		public override void OnKill(int timeLeft)
 		{
 			//Sound
 			SoundEngine.PlaySound(SoundID.Item14, Projectile.position);

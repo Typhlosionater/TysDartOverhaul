@@ -11,11 +11,6 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 {
 	public class CarapaceDartProjectile : ModProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Carapace Dart");
-		}
-
 		public override void SetDefaults()
 		{
 			Projectile.width = 14;
@@ -32,12 +27,8 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 			Projectile.ignoreWater = false;
 			Projectile.tileCollide = true;
 			AIType = ProjectileID.PoisonDartBlowgun;
-		}
 
-		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			//Ignores 50 Armor
-			damage += target.checkArmorPenetration(50);
+			Projectile.ArmorPenetration = 50;
 		}
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
@@ -47,7 +38,7 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 			return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
 		}
 
-		public override void Kill(int timeLeft)
+		public override void OnKill(int timeLeft)
 		{
 			//Spawns dust and plays sound
 			for (int i = 0; i < 3; i++)

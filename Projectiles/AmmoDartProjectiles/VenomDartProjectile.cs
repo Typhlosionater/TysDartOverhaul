@@ -11,11 +11,6 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 {
 	public class VenomDartProjectile : ModProjectile
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Venom Dart");
-		}
-
 		public override void SetDefaults()
 		{
 			Projectile.width = 14;
@@ -34,16 +29,16 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 			AIType = ProjectileID.Bullet;
 		}
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
 		{
 			//Inflicts 10 seconds on venom on hit enemies
 			target.AddBuff(BuffID.Venom, 10 * 60);
 		}
 
-		public override void OnHitPvp(Player target, int damage, bool crit)
-		{
-			//Inflicts 10 seconds on venom on hit players
-			target.AddBuff(BuffID.Venom, 10 * 60);
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            //Inflicts 10 seconds on venom on hit players
+            target.AddBuff(BuffID.Venom, 10 * 60);
 		}
 
 		public override void AI()
@@ -83,7 +78,7 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 			Projectile.ai[1]++;
 		}
 
-		public override void Kill(int timeLeft)
+		public override void OnKill(int timeLeft)
 		{
 			//Initial dart doesnt have death anim
 			if (Projectile.ai[0] != 0)

@@ -22,9 +22,6 @@ namespace TysDartOverhaul.Items.Weapons
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Phasic Dart Ejector");
-			Tooltip.SetDefault("Charges up a blast of up to 9 darts");
-
 			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
 		}
 
@@ -115,7 +112,8 @@ namespace TysDartOverhaul.Items.Weapons
 			numCharges++;
 			numCharges = Math.Clamp(numCharges, 0, 9);
 			if (numCharges == 9f && GlowmaskFrame != 3) {
-				GlowmaskFrame = 3;
+                SoundEngine.PlaySound(SoundID.Item115, Projectile.position);
+                GlowmaskFrame = 3;
 				VisualsTimer = MaxChargeFlashTime;
 			}
 		}
@@ -149,7 +147,7 @@ namespace TysDartOverhaul.Items.Weapons
 			VisualsTimer++;
 		}
 
-		public override void Kill(int timeLeft) {
+		public override void OnKill(int timeLeft) {
 			if (numCharges < 3) {
                 SoundEngine.PlaySound(SoundID.Item13, Projectile.position);
                 return;
