@@ -5,7 +5,7 @@ using Terraria.GameContent.Creative;
 
 namespace TysDartOverhaul.Items.Ammo
 {
-	public class FeatherDart : ModItem
+	public class ShimmerDart : ModItem
 	{
 		public override bool IsLoadingEnabled(Mod mod)
 		{
@@ -21,25 +21,18 @@ namespace TysDartOverhaul.Items.Ammo
 		{
 			Item.damage = 10;
 			Item.DamageType = DamageClass.Ranged;
-			Item.width = 14;
-			Item.height = 30;
+			Item.width = 18;
+			Item.height = 26;
 
 			Item.maxStack = 9999;
 			Item.consumable = true;             
-			Item.knockBack = 1.5f;
-			Item.value = Item.sellPrice(0, 0, 0, 1);
+			Item.knockBack = 3f;
+			Item.value = Item.buyPrice(0, 0, 0, 10);
 
-			Item.rare = ItemRarityID.White;
-			Item.shoot = ModContent.ProjectileType<Projectiles.AmmoDartProjectiles.FeatherDartProjectile>();
-			Item.shootSpeed = 4f;
+			Item.rare = ItemRarityID.Green;
+			Item.shoot = ModContent.ProjectileType<Projectiles.AmmoDartProjectiles.ShimmerDartProjectile>();
+			Item.shootSpeed = 1f;
 			Item.ammo = AmmoID.Dart;
-		}
-
-		public override void AddRecipes()
-		{
-			CreateRecipe(100)
-				.AddIngredient(ItemID.Feather, 1)
-				.Register();
 		}
 	}
 }

@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.Creative;
+using TysDartOverhaul.Items.Weapons;
 
 namespace TysDartOverhaul.Items.Ammo
 {
@@ -15,7 +16,9 @@ namespace TysDartOverhaul.Items.Ammo
 		public override void SetStaticDefaults()
 		{
 			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
-		}
+            ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<ShimmerDart>();
+
+        }
 
 		public override void SetDefaults()
 		{
@@ -24,7 +27,7 @@ namespace TysDartOverhaul.Items.Ammo
 			Item.width = 14;
 			Item.height = 24;
 
-			Item.maxStack = 999;
+			Item.maxStack = 9999;
 			Item.consumable = true;             
 			Item.knockBack = 1f;
 			Item.value = Item.buyPrice(0, 0, 0, 6);

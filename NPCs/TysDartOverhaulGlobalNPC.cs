@@ -16,31 +16,9 @@ namespace TysDartOverhaul.NPCs
 	{
 		public override bool InstancePerEntity => true;
 
-		public bool KilledByDart;
-
-        public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
-        {
-            if ((projectile.type == ModContent.ProjectileType<Projectiles.AmmoDartProjectiles.DartProjectile>()) && !npc.active)
-            {
-                KilledByDart = true;
-            }
-        }
-
         //New Loot Drops
         public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
 		{
-			//If modded darts are available
-            if (ModContent.GetInstance<TysDartOverhaulConfig>().AddNewDarts)
-            {
-				//Windy balloon drops dartling helm if killed by a standard dart
-				if (npc.type == NPCID.WindyBalloon)
-				{
-					IItemDropRule KilledByStandardDart = new LeadingConditionRule(new KilledByDartDropCondition());
-					KilledByStandardDart.OnSuccess(ItemDropRule.Common(ModContent.ItemType<DartlingHelm>()));
-					npcLoot.Add(KilledByStandardDart);
-				}
-			}
-
 			//If modded dartguns are available
 			if (ModContent.GetInstance<TysDartOverhaulConfig>().AddNewDartguns)
 			{

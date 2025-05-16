@@ -25,7 +25,7 @@ namespace TysDartOverhaul.Items.Ammo
 			Item.width = 14;
 			Item.height = 26;
 
-			Item.maxStack = 999;
+			Item.maxStack = 9999;
 			Item.consumable = true;             
 			Item.knockBack = 3.5f;
 			Item.value = Item.sellPrice(0, 0, 0, 20);

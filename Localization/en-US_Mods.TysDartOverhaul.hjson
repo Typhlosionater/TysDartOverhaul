@@ -39,6 +39,11 @@ Items: {
 		Tooltip: "'Bold of you to stand in my way...'"
 	}
 
+	ShimmerDart: {
+		DisplayName: Shimmer Dart
+		Tooltip: Extraordinarily bouncy
+	}
+
 	VenomDart: {
 		DisplayName: Venom Dart
 		Tooltip: Splits into twin helical darts
@@ -139,6 +144,7 @@ Projectiles: {
 	EctoplasmDartProjectile.DisplayName: Ectoplasm Dart
 	FeatherDartProjectile.DisplayName: Feather Dart
 	LuminiteDartProjectile.DisplayName: Luminite Dart
+	ShimmerDartProjectile.DisplayName: Shimmer Dart
 	VenomDartProjectile.DisplayName: Venom Dart
 	BlazingDartProjectile.DisplayName: Blazing Dart
 	QueensStingerDartProjectile.DisplayName: Queen's Stinger
@@ -169,4 +175,8 @@ Configs: {
 			Tooltip: Changes ichor dart and crystal darts to use local immunity frames and cursed dart flames to use static immunity frames. (Enabled by default)
 		}
 	}
+}
+
+VanillaItemTooltips: {
+	PoisonDart: Bursts on impact
 }
