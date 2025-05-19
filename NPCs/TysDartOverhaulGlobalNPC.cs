@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using TysDartOverhaul.Items.Weapons;
 using TysDartOverhaul.Items.Ammo;
 using static System.Net.Mime.MediaTypeNames;
+using TysDartOverhaul.Items.Accessories;
 
 namespace TysDartOverhaul.NPCs
 {
@@ -52,131 +53,70 @@ namespace TysDartOverhaul.NPCs
 					npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<PhasicDartEjector>(), 800));
 				}
 			}
+
+			//If modded accessories are available
+			if (ModContent.GetInstance<TysDartOverhaulConfig>().AddNewAccessories)
+			{
+                //Giant Flying Fox drops Huntsman Bandana at 2.5%
+                if (npc.type == NPCID.GiantFlyingFox)
+				{
+					npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<HuntsmanBandana>(), 40));
+				}
+			}
 		}
 
-		/*
-		//New Sold Items
-		public override void ModifyActiveShop(NPC npc, string shopName, Item[] items)
-		{
+        //New Sold Items
+        public override void ModifyShop(NPCShop shop)
+        {
 			//If modded darts are available
-			if (ModContent.GetInstance<TysDartOverhaulConfig>().AddNewDarts)
-			{
-				//Merchant sells basic darts
-				if (type == NPCID.Merchant)
-				{
-					//Create List
-					List<Item> inventory = shop.item.ToList();
-
-					//Find Slot to insert into
-					Item NewItemSlot = inventory.FirstOrDefault(i => i.type == ItemID.WoodenArrow); //Change target
-					int index = 11; //Change Default
-					if (NewItemSlot != null)
-						index = inventory.IndexOf(NewItemSlot) + 1;
-
-					//Insert item into slot
-					inventory.Insert(index, new(ModContent.ItemType<Dart>())); //Changes Item
-					inventory[index].isAShopItem = true;
-					nextSlot++;
-
-					//Bruh Moment
-					shop.item = inventory.ToArray();
-				}
-			}
+            if (ModContent.GetInstance<TysDartOverhaulConfig>().AddNewDarts)
+            {
+				//Merchant sells darts
+                if (shop.NpcType == NPCID.Merchant)
+                {
+                    shop.InsertAfter(ItemID.WoodenArrow, ModContent.ItemType<Dart>());
+                }
+            }
 
 			//If modded dartguns are available
-			if (ModContent.GetInstance<TysDartOverhaulConfig>().AddNewDartguns)
-			{
+            if (ModContent.GetInstance<TysDartOverhaulConfig>().AddNewDartguns)
+            {
 				//Arms dealer sells air rifle
-				if (type == NPCID.ArmsDealer)
-				{
-					//Create List
-					List<Item> inventory = shop.item.ToList();
+                if (shop.NpcType == NPCID.ArmsDealer)
+                {
+                    shop.InsertAfter(ItemID.Minishark, ModContent.ItemType<AirRifle>());
+                }
 
-					//Find Slot to insert into
-					Item NewItemSlot = inventory.FirstOrDefault(i => i.type == ItemID.Minishark); //Change target
-					int index = 6; //Change Default
-					if (NewItemSlot != null)
-						index = inventory.IndexOf(NewItemSlot) + 1;
+                //Arms dealer sells dartling gun post plantera
+                if (shop.NpcType == NPCID.ArmsDealer)
+                {
+                    shop.InsertAfter(ItemID.Shotgun, ModContent.ItemType<DartlingGun>(), Condition.DownedPlantera);
+                }
 
-					//Insert item into slot
-					inventory.Insert(index, new(ModContent.ItemType<AirRifle>())); //Changes Item
-					inventory[index].isAShopItem = true;
-					nextSlot++;
+                //Steampunker sells clockwork ballista post golem
+                if (shop.NpcType == NPCID.Steampunker)
+                {
+                    shop.InsertAfter(ItemID.SteampunkWings, ModContent.ItemType<ClockworkBallista>(), Condition.DownedGolem);
+                }
+            }
+        }
 
-					//Bruh Moment
-					shop.item = inventory.ToArray();
-				}
-
-				//Arms dealer sells dartling gun post Plantera
-				if (type == NPCID.ArmsDealer && Main.hardMode && NPC.downedPlantBoss)
-				{
-					//Create List
-					List<Item> inventory = shop.item.ToList();
-
-					//Find Slot to insert into
-					Item NewItemSlot = inventory.FirstOrDefault(i => i.type == ItemID.Shotgun); //Change target
-					int index = 8; //Change Default
-					if (NewItemSlot != null)
-						index = inventory.IndexOf(NewItemSlot) + 1;
-
-					//Insert item into slot
-					inventory.Insert(index, new(ModContent.ItemType<DartlingGun>())); //Changes Item
-					inventory[index].isAShopItem = true;
-					nextSlot++;
-
-					//Bruh Moment
-					shop.item = inventory.ToArray();
-				}
-
-				//Steampunker sells Clockwork Ballista post Golem
-				if (type == NPCID.Steampunker && NPC.downedGolemBoss)
-				{
-					//Create List
-					List<Item> inventory = shop.item.ToList();
-
-					//Find Slot to insert into
-					Item NewItemSlot = inventory.FirstOrDefault(i => i.type == ItemID.SteampunkWings); //Change target
-					int index = 1; //Change Default
-					if (NewItemSlot != null)
-						index = inventory.IndexOf(NewItemSlot) + 1;
-
-					//Insert item into slot
-					inventory.Insert(index, new(ModContent.ItemType<ClockworkBallista>())); //Changes Item
-					inventory[index].isAShopItem = true;
-					nextSlot++;
-
-					//Bruh Moment
-					shop.item = inventory.ToArray();
-				}
-			}
-		}*/
-
-		//Travelling merchant sold items
-		public override void SetupTravelShop(int[] shop, ref int nextSlot)
+        //Travelling merchant sold items
+        public override void SetupTravelShop(int[] shop, ref int nextSlot)
 		{
 			//Rare Items List
 			int[] RareItemIds = new int[]
 			{
-			ItemID.PaintingTheSeason,
-			ItemID.PaintingSnowfellas,
-			ItemID.PaintingCursedSaint,
-			ItemID.PaintingColdSnap,
-			ItemID.PaintingAcorns,
-			//ItemID.MoonmanandCompany,
-			ItemID.PaintingTheTruthIsUpThere,
-			ItemID.PaintingMartiaLisa,
-			ItemID.PaintingCastleMarsberg,
-			ItemID.MoonLordPainting,
 			ItemID.Code1,
 			ItemID.Code2,
-			//ItemID.ZapinatorGray,
-			//ItemID.ZapinatorOrange,
+			ItemID.ZapinatorGray,
+			ItemID.ZapinatorOrange,
 			ItemID.UnicornHornHat,
 			ItemID.HeartHairpin,
 			ItemID.StarHairpin,
 			ItemID.Fedora,
-			//ItemID.GoblorcEar,
-			//ItemID.VulkelfEar,
+			ItemID.GoblorcEar,
+			ItemID.VulkelfEar,
 			ItemID.PandaEars,
 			ItemID.DevilHorns,
 			ItemID.DemonHorns,
@@ -184,7 +124,8 @@ namespace TysDartOverhaul.NPCs
 			ItemID.GypsyRobe,
 			ItemID.MagicHat,
 			ItemID.Fez,
-			ItemID.Revolver
+			ItemID.Revolver,
+			ItemID.Pho
 			};
 
 			//If modded dartguns are available

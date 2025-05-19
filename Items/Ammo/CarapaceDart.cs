@@ -19,14 +19,14 @@ namespace TysDartOverhaul.Items.Ammo
 
 		public override void SetDefaults()
 		{
-			Item.damage = 15;
+			Item.damage = 17;
 			Item.DamageType = DamageClass.Ranged;
 			Item.width = 14;
 			Item.height = 30;
 
 			Item.maxStack = 9999;
 			Item.consumable = true;             
-			Item.knockBack = 4f;
+			Item.knockBack = 3f;
 			Item.value = Item.sellPrice(0, 0, 0, 30);
 
 			Item.rare = ItemRarityID.Yellow;

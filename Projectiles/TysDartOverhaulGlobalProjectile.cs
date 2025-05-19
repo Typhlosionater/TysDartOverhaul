@@ -46,10 +46,11 @@ namespace TysDartOverhaul.Projectiles
 					projectile.localNPCHitCooldown = 10;
 				}
 
-				//Cursed dart flames use static immunity
+				//Cursed dart flames no longer pierce
 				if (projectile.type == ProjectileID.CursedDartFlame)
 				{
-					projectile.usesIDStaticNPCImmunity = true;
+                    projectile.penetrate = 1;
+					projectile.usesLocalNPCImmunity = true;
 					projectile.idStaticNPCHitCooldown = 10;
 				}
 			}
@@ -101,6 +102,8 @@ namespace TysDartOverhaul.Projectiles
                 if (projectile.type == ProjectileID.PoisonDartBlowgun && projectile.timeLeft > 3)
                 {
                     projectile.timeLeft = 3;
+                    projectile.tileCollide = false;
+                    return false;
                 }
 
                 //crystal darts reduce in damage when bouncing, play a sound and make dust
@@ -121,7 +124,6 @@ namespace TysDartOverhaul.Projectiles
                         dust3 = dust57;
                         dust3.scale *= 0.9f;
                     }
-
                 }
             }
             return base.OnTileCollide(projectile, oldVelocity);
@@ -139,7 +141,7 @@ namespace TysDartOverhaul.Projectiles
             }
         }
 
-        public override void OnKill(Projectile projectile, int timeLeft)
+        public override bool PreKill(Projectile projectile, int timeLeft)
         {
             if (ModContent.GetInstance<TysDartOverhaulConfig>().VanillaDartChanges)
             {
@@ -149,20 +151,21 @@ namespace TysDartOverhaul.Projectiles
                     SoundEngine.PlaySound(SoundID.Item14 with { Volume = 0.5f }, projectile.position);
                     for (int i = 0; i < 8; i++)
                     {
-                        Dust dust1 = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 46);
+                        Dust dust1 = Dust.NewDustDirect(projectile.Center, 0, 0, 46);
                         dust1.noGravity = true;
                         dust1.fadeIn = 1.9f;
                         dust1.alpha = 120;
                         dust1.velocity *= 2f;
 
                     }
-                    for (int i = 0; i < 6; i++)
+                    for (int i = 0; i < 8; i++)
                     {
-                        int num328 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 256);
+                        int num328 = Dust.NewDust(projectile.Center, 0, 0, 256);
                         Main.dust[num328].noGravity = true;
                         Main.dust[num328].position = (Main.dust[num328].position + projectile.position) / 2f;
                         Main.dust[num328].velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
                         Main.dust[num328].velocity.Normalize();
+                        Main.dust[num328].velocity *= 2f;
                         Dust dust135 = Main.dust[num328];
                         Dust dust3 = dust135;
                         dust3.velocity *= (float)Main.rand.Next(1, 30) * 0.1f;
@@ -172,8 +175,34 @@ namespace TysDartOverhaul.Projectiles
                     {
                         int num215 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 31);
                     }
+
+                    return false;
                 }
 
+                //Cursed darts no longer produce a flame on death and instead produce a little fire dust
+                if (projectile.type == ProjectileID.CursedDart)
+                {
+                    //Spawns dust and plays sound
+                    SoundEngine.PlaySound(SoundID.NPCHit3 with { Volume = 0.8f }, projectile.position);
+                    for (int i = 0; i < 8; i++)
+                    {
+                        int num306 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.CursedTorch, 0f, 0f, 100);
+                        Main.dust[num306].rotation += Main.rand.NextFloat();
+                        Dust dust63 = Main.dust[num306];
+                        Dust dust189 = dust63;
+                        dust189.scale += Main.rand.Next(50) * 0.01f;
+                    }
+
+                    return false;
+                }
+            }
+            return base.PreKill(projectile, timeLeft);
+        }
+
+        public override void OnKill(Projectile projectile, int timeLeft)
+        {
+            if (ModContent.GetInstance<TysDartOverhaulConfig>().VanillaDartChanges)
+            {
                 //crystal darts produce dust on death
                 if (projectile.type == ProjectileID.CrystalDart)
                 {

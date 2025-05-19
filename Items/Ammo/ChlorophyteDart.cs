@@ -19,7 +19,7 @@ namespace TysDartOverhaul.Items.Ammo
 
 		public override void SetDefaults()
 		{
-			Item.damage = 14;
+			Item.damage = 15;
 			Item.DamageType = DamageClass.Ranged;
 			Item.width = 14;
 			Item.height = 30;
@@ -39,7 +39,8 @@ namespace TysDartOverhaul.Items.Ammo
 		{
 			CreateRecipe(100)
 				.AddIngredient(ItemID.ChlorophyteBar, 1)
-				.Register();
+				.AddTile(TileID.MythrilAnvil)
+                .Register();
 		}
 	}
 }

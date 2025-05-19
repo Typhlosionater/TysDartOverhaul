@@ -22,7 +22,7 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
             Projectile.timeLeft = 600 * 2;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = 6;
-			Projectile.Opacity = 0.3f;
+			Projectile.alpha = 80;
 
 			AIType = ProjectileID.PoisonDartBlowgun;
 
@@ -48,16 +48,9 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
             Projectile.netUpdate = true;
         }
 
-		public override void AI()
-		{
-			//Gets more visible as it pierces
-			Projectile.Opacity = 0.3f + ((6 - Projectile.penetrate) / 20f);
-		}
-
 		public override Color? GetAlpha(Color lightColor)
 		{
-			//Uneffected by lighting
-			return new Color(255 - Projectile.alpha, 255 - Projectile.alpha, 255 - Projectile.alpha, 0);
+			return Color.White;
 		}
 
 		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
@@ -70,7 +63,7 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 		public override void OnKill(int timeLeft)
 		{
 			//Spawns dust on death
-			for (int i = 0; i < (2 + Math.Ceiling((6 - Projectile.penetrate) / 2f)); i++)
+			for (int i = 0; i < 4; i++)
 			{
 				int ImpactDust = Dust.NewDust(Projectile.Center, 0, 0, DustID.DungeonSpirit);
 				Main.dust[ImpactDust].velocity *= 1.5f;

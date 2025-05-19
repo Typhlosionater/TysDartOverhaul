@@ -44,6 +44,11 @@ namespace TysDartOverhaul.Projectiles.ConvertedDartProjectiles
             {
 				Projectile.alpha -= 25;
             }
+
+            if (Main.rand.Next(2) == 0)
+            {
+                Dust.NewDustDirect(Projectile.position - Projectile.velocity, Projectile.width, Projectile.height, 147, 0f, 0f, 0, default(Color), 0.9f).noGravity = true;
+            }
         }
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)

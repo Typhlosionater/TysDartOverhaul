@@ -1,3 +1,11 @@
+Buffs: {
+	CarapaceDartDebuff: {
+		DisplayName: Skewered
+		Tooltip: Heavily bleeding out
+		Description: Heavily bleeding out
+	}
+}
+
 Items: {
 	BoneDart: {
 		DisplayName: Bone Dart
@@ -6,12 +14,12 @@ Items: {
 
 	CarapaceDart: {
 		DisplayName: Carapace Dart
-		Tooltip: Ignores a substantial amount of enemy defense
+		Tooltip: Sticks into enemies
 	}
 
 	ChlorophyteDart: {
 		DisplayName: Chlorophyte Dart
-		Tooltip: Produces damaging spore clouds
+		Tooltip: Slashes enemies with nature energy
 	}
 
 	Dart: {
@@ -56,12 +64,12 @@ Items: {
 
 	AirRifle: {
 		DisplayName: Air Rifle
-		Tooltip: ""
+		Tooltip: Fires darts at high speed
 	}
 
 	AncientCrossbow: {
 		DisplayName: Ancient Crossbow
-		Tooltip: ""
+		Tooltip: Shoots piercing necro darts
 	}
 
 	Atlatl: {
@@ -86,7 +94,7 @@ Items: {
 
 	Decapitator: {
 		DisplayName: Decapitator
-		Tooltip: Fires two parallel darts
+		Tooltip: Fires two parallel necro darts
 	}
 
 	HellfireBlaster: {
@@ -106,7 +114,7 @@ Items: {
 
 	SHREDR: {
 		DisplayName: S.H.R.E.D.R.
-		Tooltip: 50% chance to not consume ammo
+		Tooltip: 50% chance to not consume darts
 	}
 
 	StingOperation: {
@@ -131,6 +139,35 @@ Items: {
 		DisplayName: Triple Dart Glove
 		Tooltip: ""
 	}
+
+	HuntsmanBandana: {
+		DisplayName: Huntsman Bandana
+		Tooltip:
+			'''
+			Increases dart damage by 10% and greatly increases dart knockback
+			20% chance to not consume darts
+			'''
+	}
+
+	AssassinsHeadband: {
+		DisplayName: Assassin's Headband
+		Tooltip:
+			'''
+			Increases dart damage by 10% and greatly increases dart knockback
+			20% chance to not consume darts
+			Enemies are less likely to target you
+			'''
+	}
+
+	PredatorsBandana: {
+		DisplayName: Predator's Bandana
+		Tooltip:
+			'''
+			Increases dart damage by 10% and greatly increases dart knockback
+			20% chance to not consume darts
+			Coats basic darts in poison
+			'''
+	}
 }
 
 Projectiles: {
@@ -140,6 +177,7 @@ Projectiles: {
 	BoneDartProjectile.DisplayName: Bone Dart
 	CarapaceDartProjectile.DisplayName: Carapace Dart
 	ChlorophyteDartProjectile.DisplayName: Chlorophyte Dart
+	ChlorophyteDartSlashProjectile.DisplayName: Chlorophyte Slash
 	DartProjectile.DisplayName: Dart
 	EctoplasmDartProjectile.DisplayName: Ectoplasm Dart
 	FeatherDartProjectile.DisplayName: Feather Dart
@@ -147,8 +185,10 @@ Projectiles: {
 	ShimmerDartProjectile.DisplayName: Shimmer Dart
 	VenomDartProjectile.DisplayName: Venom Dart
 	BlazingDartProjectile.DisplayName: Blazing Dart
+	NecroDartProjectile.DisplayName: Necro Dart
 	QueensStingerDartProjectile.DisplayName: Queen's Stinger
 	StingerDartProjectile.DisplayName: Stinger Dart
+	IchorDartReworked.DisplayName: Ichor Dart
 }
 
 Configs: {
@@ -177,6 +217,4 @@ Configs: {
 	}
 }
 
-VanillaItemTooltips: {
-	PoisonDart: Bursts on impact
-}
+VanillaItemTooltips.PoisonDart: Bursts on impact

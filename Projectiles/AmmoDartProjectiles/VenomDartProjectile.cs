@@ -48,8 +48,21 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 				Projectile.Kill();
 			}
 
-			//Helix Velocity Movement
-			float InitialVelocityMagnitude;
+			//venom arrow dust
+			if (Main.rand.Next(2) == 0)
+			{
+                int num67 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 171, 0f, 0f, 100);
+                Main.dust[num67].scale = (float)Main.rand.Next(1, 10) * 0.1f;
+                Main.dust[num67].noGravity = true;
+                Main.dust[num67].fadeIn = 1.5f;
+                Dust obj25 = Main.dust[num67];
+                obj25.velocity *= 0.25f;
+                Dust obj26 = Main.dust[num67];
+                obj26.velocity += Projectile.velocity * 0.25f;
+            }
+
+            //Helix Velocity Movement
+            float InitialVelocityMagnitude;
 			float InitialVelocityRotation;
 			float WaveAmplitude = 40;
 			float WaveFrequency = 0.15f;
@@ -80,7 +93,7 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 			if (Projectile.ai[0] != 0)
 			{
 				//Play sound
-				SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
+				SoundEngine.PlaySound(SoundID.Item10, Projectile.Center);
 
 				//Venom Arrow Impact
 				for (int num639 = 0; num639 < 6; num639++)

@@ -5,6 +5,7 @@ using Terraria.Audio;
 using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
+using Mono.Cecil;
 
 namespace TysDartOverhaul.Items.Weapons
 {
@@ -18,6 +19,7 @@ namespace TysDartOverhaul.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+			//AFTERIMAGES
 		}
 
 		public override void SetDefaults()
@@ -46,5 +48,14 @@ namespace TysDartOverhaul.Items.Weapons
 		{
 			return new Vector2(3, 0);
 		}
+
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        {
+            //Changes standard darts into necro darts
+            if (type == ModContent.ProjectileType<Projectiles.AmmoDartProjectiles.DartProjectile>())
+            {
+                type = ModContent.ProjectileType<Projectiles.ConvertedDartProjectiles.NecroDartProjectile>();
+            }
+        }
 	}
 }

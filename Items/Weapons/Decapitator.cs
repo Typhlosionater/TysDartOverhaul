@@ -48,10 +48,19 @@ namespace TysDartOverhaul.Items.Weapons
 			return new Vector2(-8, 0);
 		}
 
-		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        {
+            //Changes standard darts into necro darts
+            if (type == ModContent.ProjectileType<Projectiles.AmmoDartProjectiles.DartProjectile>())
+            {
+                type = ModContent.ProjectileType<Projectiles.ConvertedDartProjectiles.NecroDartProjectile>();
+            }
+        }
+
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
-			//Find vector
-			Vector2 BaseAngle = velocity;
+            //Find vector
+            Vector2 BaseAngle = velocity;
 			BaseAngle.Normalize();
 
 			//Perpendicular Vector

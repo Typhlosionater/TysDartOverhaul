@@ -42,11 +42,13 @@ namespace TysDartOverhaul.Items.Ammo
 		{
 			CreateRecipe(100)
 				.AddIngredient(ItemID.SilverBar, 1)
-				.Register();
+				.AddTile(TileID.Anvils)
+                .Register();
 
 			CreateRecipe(100)
 				.AddIngredient(ItemID.TungstenBar, 1)
-				.Register();
+                .AddTile(TileID.Anvils)
+                .Register();
 		}
 	}
 }

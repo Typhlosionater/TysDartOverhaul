@@ -4,8 +4,11 @@ using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.Graphics.Shaders;
+using Terraria.Graphics;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Linq;
 
 
 namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
@@ -14,8 +17,8 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 	{
 		public override void SetStaticDefaults()
 		{
-			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
-			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 50;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 5;
 		}
 
 		public override void SetDefaults()
@@ -34,23 +37,36 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 			Projectile.extraUpdates = 2;
 		}
 
-		public override bool PreDraw(ref Color lightColor)
-		{
-			Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
-			for (int k = 0; k < Projectile.oldPos.Length; k++)
-			{
-				Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
-				Color color = new Color(255, 255, 255, 155) * (((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length) * 0.8f);
-				Main.EntitySpriteDraw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0);
-			}
+        private static VertexStrip vertexStrip = new();
 
-			return base.PreDraw(ref lightColor);
-		}
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Color StripColors(float progressOnStrip)
+            {
+                float num = 1f - progressOnStrip;
+                Color result = new Color(33, 160, 141) * (num * num * num * num) * 0.5f;
+                result.A = 0;
+                return result;
+            }
 
-		public override Color? GetAlpha(Color lightColor)
+            float StripWidth(float progressOnStrip) => 6f * (1 - progressOnStrip);
+
+            MiscShaderData miscShaderData = GameShaders.Misc["LightDisc"];
+            miscShaderData.UseSaturation(-2.8f);
+            miscShaderData.UseOpacity(2f);
+            miscShaderData.Apply();
+            vertexStrip.PrepareStripWithProceduralPadding(Projectile.oldPos.Skip(1).ToArray(), Projectile.oldRot, StripColors, StripWidth, -Main.screenPosition + Projectile.Size / 2f);
+            vertexStrip.DrawTrail();
+
+            Main.pixelShader.CurrentTechnique.Passes[0].Apply();
+
+            return true;
+        }
+
+        public override Color? GetAlpha(Color lightColor)
 		{
 			//Uneffected by lighting
-			return new Color(255 - Projectile.alpha, 255 - Projectile.alpha, 255 - Projectile.alpha, 155);
+			return Color.White;
 		}
 
 		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)

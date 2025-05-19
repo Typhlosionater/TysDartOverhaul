@@ -53,7 +53,7 @@ namespace TysDartOverhaul.Items.Weapons
 				.AddIngredient(ModContent.ItemType<TheStinger>(), 1)
 				.AddIngredient(ItemID.Hive, 30)
 				.AddIngredient(ItemID.SoulofFright, 20)
-				.AddTile(TileID.Anvils)
+				.AddTile(TileID.MythrilAnvil)
 				.Register();
 		}
 

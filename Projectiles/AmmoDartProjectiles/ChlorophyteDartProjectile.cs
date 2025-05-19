@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using static System.Net.Mime.MediaTypeNames;
 
 
 namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
@@ -25,31 +26,6 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 			AIType = ProjectileID.PoisonDartBlowgun;
 		}
 
-		public override void AI()
-		{
-			//startup then countup
-			if (Projectile.timeLeft == 600)
-			{
-				Projectile.frameCounter = Main.rand.Next(10);
-			}
-            else
-            {
-				Projectile.frameCounter++;
-			}
-
-			//Regularly produce spores
-			if (Projectile.frameCounter >= 10)
-			{
-				Projectile.frameCounter = 0;
-				Projectile.netUpdate = true;
-
-				int SporeProj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ProjectileID.SporeCloud, Projectile.damage / 2, Projectile.knockBack / 4, Projectile.owner);
-				Main.projectile[SporeProj].DamageType = DamageClass.Ranged;
-				Main.projectile[SporeProj].usesIDStaticNPCImmunity = true;
-				Main.projectile[SporeProj].idStaticNPCHitCooldown = 10;
-			}
-		}
-
 		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
 		{
 			width = 10;
@@ -57,14 +33,33 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 			return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
 		}
 
-		public override void OnKill(int timeLeft)
+        public override void AI()
+        {
+            //chlorophyte arrow dust
+            if (Main.rand.Next(2) == 0)
+            {
+                int num68 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 40);
+                Main.dust[num68].noGravity = true;
+                Main.dust[num68].scale = 1.3f;
+                Dust obj27 = Main.dust[num68];
+                obj27.velocity *= 0.5f;
+            }
+        }
+
+        public override void OnKill(int timeLeft)
 		{
-			//Spawns dust and plays sound
-			for (int i = 0; i < 5; i++)
+            //Spawns dust and plays sound
+            SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
+            for (int i = 0; i < 6; i++)
 			{
-				Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.t_Cactus);
-			}
-			SoundEngine.PlaySound(SoundID.Grass, Projectile.position);
-		}
+				int DeathDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 74);
+                Main.dust[DeathDust].velocity *= 0.75f;
+                Main.dust[DeathDust].scale *= 0.60f;
+            }
+
+			//spawn slash
+			Vector2 SlashSpawnlocation = new Vector2(1, 1).RotatedBy(MathHelper.ToRadians(Main.rand.Next(0, 360)));
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + (SlashSpawnlocation * 75), -SlashSpawnlocation * 5, ModContent.ProjectileType<AmmoDartEffects.ChlorophyteDartSlashProjectile>(), (int)(Projectile.damage * 0.5f), 0f, Projectile.owner, Projectile.Center.X, Projectile.Center.Y);
+        }
 	}
 }

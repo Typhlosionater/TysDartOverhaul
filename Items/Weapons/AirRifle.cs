@@ -38,7 +38,7 @@ namespace TysDartOverhaul.Items.Weapons
 			Item.value = Item.sellPrice(0, 2, 0, 0);
 			Item.rare = ItemRarityID.Blue;
 			Item.shoot = 10;
-			Item.shootSpeed = 13f;
+			Item.shootSpeed = 14f;
 			Item.useAmmo = AmmoID.Dart;
 		}
 
