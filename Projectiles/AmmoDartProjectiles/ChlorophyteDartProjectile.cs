@@ -59,7 +59,7 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 
 			//spawn slash
 			Vector2 SlashSpawnlocation = new Vector2(1, 1).RotatedBy(MathHelper.ToRadians(Main.rand.Next(0, 360)));
-            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + (SlashSpawnlocation * 75), -SlashSpawnlocation * 5, ModContent.ProjectileType<AmmoDartEffects.ChlorophyteDartSlashProjectile>(), (int)(Projectile.damage * 0.5f), 0f, Projectile.owner, Projectile.Center.X, Projectile.Center.Y);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + (SlashSpawnlocation * 75), -SlashSpawnlocation * 5, ModContent.ProjectileType<AmmoDartEffects.ChlorophyteDartSlashProjectile>(), Projectile.damage / 3, 0f, Projectile.owner, Projectile.Center.X, Projectile.Center.Y);
         }
 	}
 }

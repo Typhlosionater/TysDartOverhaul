@@ -12,12 +12,6 @@ namespace TysDartOverhaul.Projectiles.AmmoDartEffects
 {
 	public class ChlorophyteDartSlashProjectile : ModProjectile
 	{
-        public override void SetStaticDefaults()
-        {
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 20;

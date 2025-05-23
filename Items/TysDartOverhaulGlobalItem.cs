@@ -22,5 +22,34 @@ namespace TysDartOverhaul
                 damage += 2;
             }
         }
+
+        //Ichor Dart Override
+        public override void SetDefaults(Item item)
+        {
+            if (ModContent.GetInstance<TysDartOverhaulConfig>().VanillaDartChanges)
+            {
+                if (item.type == ItemID.IchorDart)
+                {
+                    item.shoot = ModContent.ProjectileType<Projectiles.AmmoDartProjectiles.IchorDartReworked>();
+                }
+            }
+        }
+
+        //Change Poison dart tooltip
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+        {
+            if (ModContent.GetInstance<TysDartOverhaulConfig>().VanillaDartChanges)
+            {
+                if (item.type == ItemID.PoisonDart)
+                {
+                    int index = tooltips.FindIndex(x => x.Name == "Tooltip0");
+                    if (index == -1)
+                    {
+                        return;
+                    }
+                    tooltips[index].Text = Mod.GetLocalization($"VanillaItemTooltips.PoisonDart").Value;
+                }
+            }
+        }
     }
 }

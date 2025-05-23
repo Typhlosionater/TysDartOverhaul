@@ -29,7 +29,7 @@ Items: {
 
 	EctoplasmDart: {
 		DisplayName: Ectoplasm Dart
-		Tooltip: Increases in damage as it pierces
+		Tooltip: Creates homing wisps on impact
 	}
 
 	EndlessDartCase: {
@@ -180,6 +180,7 @@ Projectiles: {
 	ChlorophyteDartSlashProjectile.DisplayName: Chlorophyte Slash
 	DartProjectile.DisplayName: Dart
 	EctoplasmDartProjectile.DisplayName: Ectoplasm Dart
+	EctoplasmDartEctoboltProjectile.DisplayName: Ectobolt
 	FeatherDartProjectile.DisplayName: Feather Dart
 	LuminiteDartProjectile.DisplayName: Luminite Dart
 	ShimmerDartProjectile.DisplayName: Shimmer Dart
@@ -217,4 +218,4 @@ Configs: {
 	}
 }
 
-VanillaItemTooltips.PoisonDart: Bursts on impact
+VanillaItemTooltips.PoisonDart: Detonates on impact

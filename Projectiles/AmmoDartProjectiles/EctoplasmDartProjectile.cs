@@ -21,32 +21,13 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 
             Projectile.timeLeft = 600 * 2;
             Projectile.DamageType = DamageClass.Ranged;
-            Projectile.penetrate = 6;
+            Projectile.penetrate = 1;
 			Projectile.alpha = 80;
 
 			AIType = ProjectileID.PoisonDartBlowgun;
 
 			Projectile.extraUpdates = 1;
-
-			Projectile.usesLocalNPCImmunity = true;
-			Projectile.localNPCHitCooldown = 10;
 		}
-
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-		{
-			//Damage gets increased after each hit
-			Projectile.damage = (int)(Projectile.damage * 1.2f);
-            Projectile.velocity *= 1.1f;
-			Projectile.netUpdate = true;
-        }
-
-        public override void OnHitPlayer(Player target, Player.HurtInfo info)
-        {
-			//Damage gets increased after each hit
-			Projectile.damage = (int)(Projectile.damage * 1.2f);
-			Projectile.velocity *= 1.1f;
-            Projectile.netUpdate = true;
-        }
 
 		public override Color? GetAlpha(Color lightColor)
 		{
@@ -71,6 +52,15 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 				Main.dust[ImpactDust].rotation = Main.rand.NextFloat(0, 4);
 				Main.dust[ImpactDust].noGravity = true;
 			}
-		}
+
+            //Spawns 1-3 ectobolts
+            int numberProjectiles = 1 + Main.rand.Next(2);
+            numberProjectiles = numberProjectiles + Main.rand.Next(2);
+            for (int i = 0; i < numberProjectiles; i++)
+            {
+                Vector2 EctoshardAngle = new Vector2(1, 1).RotatedBy(MathHelper.ToRadians(Main.rand.Next(0, 360)));
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, EctoshardAngle * 8, ModContent.ProjectileType<AmmoDartEffects.EctoplasmDartEctoboltProjectile>(), Projectile.damage / 3, 0f, Projectile.owner);
+            }
+        }
 	}
 }

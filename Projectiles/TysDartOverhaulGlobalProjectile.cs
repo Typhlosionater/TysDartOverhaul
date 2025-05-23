@@ -131,13 +131,16 @@ namespace TysDartOverhaul.Projectiles
 
         public override void AI(Projectile projectile)
         {
-            //Poison darts explosion modify
-            if (projectile.type == ProjectileID.PoisonDartBlowgun && projectile.timeLeft <= 3)
+            if (ModContent.GetInstance<TysDartOverhaulConfig>().VanillaDartChanges)
             {
-                projectile.tileCollide = false;
-                projectile.hide = true;
-                projectile.Resize(50, 50);
-                projectile.velocity *= 0;
+                //Poison darts explosion modify
+                if (projectile.type == ProjectileID.PoisonDartBlowgun && projectile.timeLeft <= 3)
+                {
+                    projectile.tileCollide = false;
+                    projectile.hide = true;
+                    projectile.Resize(50, 50);
+                    projectile.velocity *= 0;
+                }
             }
         }
 

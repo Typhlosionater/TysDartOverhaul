@@ -20,8 +20,8 @@ namespace TysDartOverhaul.Items.Accessories
 		
 		public override void SetDefaults()
         {
-            Item.width = 28;
-            Item.height = 20;
+            Item.width = 32;
+            Item.height = 26;
             Item.value = Item.sellPrice(0, 7, 50, 0);
             Item.rare = ItemRarityID.Pink;       
             Item.accessory = true;

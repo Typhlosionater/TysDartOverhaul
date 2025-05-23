@@ -49,7 +49,7 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 			{
 				Vector2 perturbedSpeed = new Vector2(Projectile.velocity.X, Projectile.velocity.Y).RotatedByRandom(MathHelper.ToRadians(18));
 				perturbedSpeed *= Main.rand.NextFloat(0.6f, 0.8f);
-				Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, perturbedSpeed, ModContent.ProjectileType<AmmoDartEffects.BoneDartShrapnelProjectile>(), Projectile.damage / 2, Projectile.knockBack / 3, Projectile.owner, 0, HitEnemy);
+				Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, perturbedSpeed, ModContent.ProjectileType<AmmoDartEffects.BoneDartShrapnelProjectile>(), Projectile.damage / 5, Projectile.knockBack / 5, Projectile.owner, 0, HitEnemy);
 			}
 
 			//Spawns dust and plays sound
