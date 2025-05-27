@@ -22,7 +22,7 @@ namespace TysDartOverhaul.Items.Weapons
 
 		public override void SetDefaults()
 		{
-			Item.damage = 42;
+			Item.damage = 54;
 			Item.DamageType = DamageClass.Ranged;
 			Item.useTime = 10;
 			Item.useAnimation = 10;

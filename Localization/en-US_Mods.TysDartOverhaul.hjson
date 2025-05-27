@@ -64,7 +64,7 @@ Items: {
 
 	AirRifle: {
 		DisplayName: Air Rifle
-		Tooltip: Fires darts at high speed
+		Tooltip: Fires a high speed dart
 	}
 
 	AncientCrossbow: {
@@ -198,12 +198,12 @@ Configs: {
 
 		AddNewDartguns: {
 			Label: Add new modded dartguns
-			Tooltip: Adds new modded dartguns to various points in progression. (Enabled by default)
+			Tooltip: Adds new modded dartguns. (Enabled by default)
 		}
 
 		AddNewDarts: {
 			Label: Add new modded darts
-			Tooltip: Adds a variety of new modded dart ammunition types. (Enabled by default)
+			Tooltip: Adds new modded dart ammunition types. (Enabled by default)
 		}
 
 		AddNewAccessories: {
@@ -213,7 +213,7 @@ Configs: {
 
 		VanillaDartChanges: {
 			Label: Changes to vanilla darts
-			Tooltip: Changes ichor dart and crystal darts to use local immunity frames and cursed dart flames to use static immunity frames. (Enabled by default)
+			Tooltip: Modifies vanilla darts to improve visuals and balance. (Enabled by default)
 		}
 	}
 }

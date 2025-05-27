@@ -22,7 +22,7 @@ namespace TysDartOverhaul.Items.Ammo
 
 		public override void SetDefaults()
 		{
-			Item.damage = 14;
+			Item.damage = 12;
 			Item.DamageType = DamageClass.Ranged;
 			Item.width = 14;
 			Item.height = 28;

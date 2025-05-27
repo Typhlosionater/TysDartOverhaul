@@ -26,8 +26,8 @@ namespace TysDartOverhaul.Items.Weapons
 		{
 			Item.damage = 30;
 			Item.DamageType = DamageClass.Ranged;
-			Item.useTime = 30;
-			Item.useAnimation = 30;
+			Item.useTime = 28;
+			Item.useAnimation = 28;
 			Item.knockBack = 3.8f;
 
 			Item.width = 16;
