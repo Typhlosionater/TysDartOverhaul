@@ -14,6 +14,7 @@ namespace TysDartOverhaul.Items.Weapons
 {
 	public class PhasicDartEjector : ModItem
 	{
+		public static bool ConsumeAmmoFromProjHack = false;
 
 		public override bool IsLoadingEnabled(Mod mod)
 		{
@@ -42,6 +43,11 @@ namespace TysDartOverhaul.Items.Weapons
 			Item.shoot = 10;
 			Item.shootSpeed = 16f;
 			Item.useAmmo = AmmoID.Dart;
+		}
+
+		public override bool CanConsumeAmmo(Item ammo, Player player)
+		{
+			return ConsumeAmmoFromProjHack;
 		}
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
@@ -143,15 +149,24 @@ namespace TysDartOverhaul.Items.Weapons
                 SoundEngine.PlaySound(SoundID.Item13, Projectile.position);
                 return;
 			}
-			
+
+            SoundEngine.PlaySound(SoundID.Item92, Projectile.position);
+
+			PhasicDartEjector.ConsumeAmmoFromProjHack = true;
 			Owner.PickAmmo(Owner.HeldItem, out int projToShoot, out float speed, out int damage, out float knockback, out int usedAmmoItemID);
+			PhasicDartEjector.ConsumeAmmoFromProjHack = false;
+
+			if (Projectile.owner != Main.myPlayer)
+			{
+				return;
+			}
+
 			for (int i = 0; i < numCharges; i++) {
 				Vector2 velocity = Owner.Center.DirectionTo(Main.MouseWorld) * speed;
 				velocity = velocity.RotatedByRandom(MathHelper.ToRadians(20));
 				velocity *= Main.rand.NextFloat(0.8f, 1f);
 				Projectile.NewProjectile(Owner.GetSource_ItemUse_WithPotentialAmmo(Owner.HeldItem, usedAmmoItemID), Owner.Center, velocity, projToShoot, damage, knockback, Projectile.owner);
 			}
-            SoundEngine.PlaySound(SoundID.Item92, Projectile.position);
         }
 
 		private Asset<Texture2D> _glowmask;
