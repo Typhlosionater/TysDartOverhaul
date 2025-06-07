@@ -8,21 +8,16 @@ using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
-using TysDartOverhaul.Helpers.Abstracts;
 using Terraria.GameContent;
 
 namespace TysDartOverhaul.Items.Weapons
 {
 	public class PhasicDartEjector : ModItem
 	{
+
 		public override bool IsLoadingEnabled(Mod mod)
 		{
 			return ModContent.GetInstance<TysDartOverhaulConfig>().AddNewDartguns;
-		}
-
-		public override void SetStaticDefaults()
-		{
-			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
 		}
 
 		public override void SetDefaults()
@@ -52,28 +47,10 @@ namespace TysDartOverhaul.Items.Weapons
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Texture2D texture = ModContent.Request<Texture2D>("TysDartOverhaul/Items/Weapons/PhasicDartEjector_Glowmask").Value;
-			Main.spriteBatch.Draw
-			(
-				texture,
-				new Vector2
-				(
-					Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
-					Item.position.Y - Main.screenPosition.Y + Item.height - texture.Height * 0.5f
-				),
-				new Rectangle(0, 0, texture.Width, texture.Height),
-				Color.White,
-				rotation,
-				texture.Size() * 0.5f,
-				scale,
-				SpriteEffects.None,
-				0f
-			);
+			Vector2 drawPos = Item.position - Main.screenPosition + (Item.Size / 2f);
+			Main.spriteBatch.Draw(texture, drawPos, texture.Frame(), Color.White, rotation, texture.Size() * 0.5f, scale, SpriteEffects.None, 0f);
 		}
 
-		//Stops the player consuming ammo from channeling
-		public override bool CanConsumeAmmo(Item ammo, Player player) => player.heldProj != -1;
-
-		//Channels PhasicDartEjectorProjectile instead of firing darts
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
 			Projectile.NewProjectile(source, position, Vector2.Zero, ModContent.ProjectileType<PhasicDartEjector_HeldProjectile>(), damage, knockback, player.whoAmI);
@@ -82,42 +59,28 @@ namespace TysDartOverhaul.Items.Weapons
 		}
 	}
 
-	public class PhasicDartEjector_HeldProjectile : HeldProjectile
+	public class PhasicDartEjector_HeldProjectile : ModProjectile
 	{
 		private const float MaxChargeFlashTime = 50f;
 
+		private Player Owner => Main.player[Projectile.owner];
+
 		public override void SetDefaults() {
-			// Base stats
 			Projectile.width = 46;
 			Projectile.height = 28;
 			Projectile.aiStyle = -1;
-			Projectile.tileCollide = false;
-			Projectile.ignoreWater = true;
 
-			// Weapon stats
-			Projectile.hostile = false;
+			Projectile.friendly = true;
 			Projectile.penetrate = -1;
 			Projectile.DamageType = DamageClass.Ranged;
+			Projectile.tileCollide = false;
 
-			// HeldProjectile stats
-			HoldOutOffset = 16f;
-			RotationOffset = 0f;
-
-			MuzzleOffset = new Vector2(32f, -2f);
+			Projectile.ignoreWater = true;
 		}
 
 		private int numCharges = 0;
+		private int chargeTimer = 0;
 
-		public override void Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) {
-			numCharges++;
-			numCharges = Math.Clamp(numCharges, 0, 9);
-			if (numCharges == 9f && GlowmaskFrame != 3) {
-                SoundEngine.PlaySound(SoundID.Item115, Projectile.position);
-                GlowmaskFrame = 3;
-				VisualsTimer = MaxChargeFlashTime;
-			}
-		}
-		
 		private ref float VisualsTimer => ref Projectile.localAI[0];
 
 		private int GlowmaskFrame {
@@ -125,8 +88,36 @@ namespace TysDartOverhaul.Items.Weapons
 			set => Projectile.localAI[1] = value;
 		}
 
-		public override void SafeAI() {
-			Projectile.rotation = Projectile.AngleTo(Main.MouseWorld);
+		public override void AI() {
+			Vector2 ownerCenter = Owner.RotatedRelativePoint(Owner.MountedCenter);
+			Vector2 toMouse = ownerCenter.DirectionTo(Main.MouseWorld);
+
+			Projectile.Center = ownerCenter + toMouse * 30f;
+			Projectile.rotation = toMouse.ToRotation();
+			Projectile.spriteDirection = Projectile.direction;
+
+			Projectile.timeLeft = 2;
+			Owner.ChangeDir(Projectile.direction);
+			Owner.heldProj = Projectile.whoAmI;
+			Owner.SetDummyItemTime(2);
+			Owner.itemRotation = MathHelper.WrapAngle(float.Atan2(toMouse.Y, toMouse.X));
+
+			int timeTillNextCharge = (int)(Owner.HeldItem.useTime * Owner.GetWeaponAttackSpeed(Owner.HeldItem));
+			chargeTimer++;
+			if (chargeTimer >= timeTillNextCharge && numCharges < 9) {
+				numCharges++;
+				chargeTimer = 0;
+
+				if (numCharges == 9)
+				{
+					VisualsTimer = MaxChargeFlashTime;
+				}
+			}
+
+			if (!Main.mouseLeft) {
+				Projectile.Kill();
+				return;
+			}
 
 			if (numCharges >= 9) {
 				VisualsTimer--;

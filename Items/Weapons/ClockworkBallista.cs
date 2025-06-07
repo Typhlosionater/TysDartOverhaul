@@ -5,7 +5,6 @@ using Terraria.Audio;
 using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
-using TysDartOverhaul.Helpers.Abstracts;
 
 namespace TysDartOverhaul.Items.Weapons
 {
