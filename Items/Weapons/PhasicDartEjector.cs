@@ -59,7 +59,7 @@ namespace TysDartOverhaul.Items.Weapons
 
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
-			Projectile.NewProjectile(source, position, Vector2.Zero, ModContent.ProjectileType<PhasicDartEjector_HeldProjectile>(), damage, knockback, player.whoAmI);
+			Projectile.NewProjectile(source, position, Vector2.Zero, ModContent.ProjectileType<PhasicDartEjector_HeldProjectile>(), 0, 0, player.whoAmI);
 
 			return false;
 		}
