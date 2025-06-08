@@ -31,11 +31,11 @@ namespace TysDartOverhaul.Projectiles
                     projectile.localNPCHitCooldown = 10;
                 }
 
-                //Crystal darts use local immunity and grant 30 frames
+                //Crystal darts use local immunity and grant 20 frames
                 if (projectile.type == ProjectileID.CrystalDart)
 				{
 					projectile.usesLocalNPCImmunity = true;
-					projectile.localNPCHitCooldown = 30;
+					projectile.localNPCHitCooldown = 20;
                     projectile.penetrate = 5;
 				}
 

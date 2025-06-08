@@ -17,6 +17,7 @@ namespace TysDartOverhaul.Projectiles.ConvertedDartProjectiles
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
+
         public override void SetDefaults()
 		{
 			Projectile.width = 14;
@@ -42,8 +43,8 @@ namespace TysDartOverhaul.Projectiles.ConvertedDartProjectiles
             for (int k = 0; k < Projectile.oldPos.Length; k++)
             {
                 Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
-                //Color color = new Color(255, 255, 255, 155) * (((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length) * 0.8f);
-                Main.EntitySpriteDraw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, lightColor, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0);
+                Color color = Projectile.GetAlpha(lightColor) * (((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length) * 0.6f);
+                Main.EntitySpriteDraw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0);
             }
 
             return base.PreDraw(ref lightColor);

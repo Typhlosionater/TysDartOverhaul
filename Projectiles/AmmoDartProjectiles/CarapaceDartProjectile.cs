@@ -6,30 +6,55 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using System.Collections.Generic;
+using Terraria.GameContent;
 
 
 namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 {
 	public class CarapaceDartProjectile : ModProjectile
 	{
-		public override void SetDefaults()
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+
+            ProjectileID.Sets.DontAttachHideToAlpha[Type] = true;
+        }
+
+        public override void SetDefaults()
 		{
 			Projectile.width = 14;
 			Projectile.height = 14;
 			Projectile.aiStyle = 1;
 			Projectile.friendly = true; 
 
-            Projectile.timeLeft = 600;
+            Projectile.timeLeft = 600 * 2;
             Projectile.DamageType = DamageClass.Ranged;
 			Projectile.alpha = 255;
 
 			AIType = ProjectileID.PoisonDartBlowgun;
+            Projectile.extraUpdates = 1;
 
             //for sticking
             Projectile.penetrate = 2;
             Projectile.hide = true;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            if (!IsStickingToTarget)
+            {
+                Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
+                for (int k = 0; k < Projectile.oldPos.Length; k++)
+                {
+                    Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+                    Color color = Projectile.GetAlpha(lightColor) * (((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length) * 0.5f);
+                    Main.EntitySpriteDraw(TextureAssets.Projectile[Projectile.type].Value, drawPos, null, color, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0);
+                }
+            }
+            return base.PreDraw(ref lightColor);
         }
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
@@ -69,11 +94,6 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
         {
             get => StickingTimer;
             set => StickingTimer = value;
-        }
-
-        public override void SetStaticDefaults()
-        {
-            ProjectileID.Sets.DontAttachHideToAlpha[Type] = true;
         }
 
         public override bool PreAI()
@@ -127,10 +147,10 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            Projectile.extraUpdates = 0;
             IsStickingToTarget = true; // we are sticking to a target
             TargetWhoAmI = target.whoAmI; // Set the target whoAmI
-            Projectile.velocity = (target.Center - Projectile.Center) *
-                0.75f; // Change velocity based on delta center of targets (difference between entity centers)
+            Projectile.velocity = (target.Center - Projectile.Center) * 0.75f; // Change velocity based on delta center of targets (difference between entity centers)
             Projectile.netUpdate = true; // netUpdate this javelin
             Projectile.damage = 0; // Makes sure the sticking javelins do not deal damage anymore
 

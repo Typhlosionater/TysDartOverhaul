@@ -31,7 +31,7 @@ namespace TysDartOverhaul.Items.Ammo
 
 			Item.rare = ItemRarityID.Yellow;
 			Item.shoot = ModContent.ProjectileType<Projectiles.AmmoDartProjectiles.CarapaceDartProjectile>();
-			Item.shootSpeed = 6f;
+			Item.shootSpeed = 4.5f;
 			Item.ammo = AmmoID.Dart;
 		}
 

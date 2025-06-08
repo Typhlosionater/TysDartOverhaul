@@ -67,7 +67,30 @@ namespace TysDartOverhaul.Items.Weapons
 				PerturbedSpeed = PerturbedSpeed * Main.rand.NextFloat(0.75f, 1f);
 				Projectile.NewProjectile(source, position, PerturbedSpeed, type, damage, knockback, player.whoAmI);
 			}
-			return false;
+
+            //Dustspray
+            for (int i = 0; i < 5; i++)
+            {
+                Dust dust1 = Dust.NewDustDirect(position, 0, 0, 46);
+                Vector2 PerturbedSpeed = velocity.RotatedByRandom(MathHelper.ToRadians(30));
+                PerturbedSpeed = PerturbedSpeed * Main.rand.NextFloat(0.5f, 1f);
+                dust1.velocity = PerturbedSpeed;
+                dust1.noGravity = true;
+                dust1.fadeIn = 1.9f;
+                dust1.alpha = 120;
+            }
+            for (int i = 0; i < 5; i++)
+            {
+                int num328 = Dust.NewDust(position, 0, 0, 256);
+                Vector2 PerturbedSpeed = velocity.RotatedByRandom(MathHelper.ToRadians(30));
+                PerturbedSpeed = PerturbedSpeed * Main.rand.NextFloat(0.5f, 1f);
+                Main.dust[num328].velocity = PerturbedSpeed;
+                Main.dust[num328].noGravity = true;
+                Dust dust135 = Main.dust[num328];
+                Dust dust3 = dust135;
+                Main.dust[num328].alpha = 60;
+            }
+            return false;
 		}
 	}
 }

@@ -38,7 +38,7 @@ namespace TysDartOverhaul.Items.Weapons
 			Item.rare = ItemRarityID.Pink;
 			Item.autoReuse = true;
 			Item.shoot = 10;
-			Item.shootSpeed = 15f;
+			Item.shootSpeed = 16f;
 			Item.useAmmo = AmmoID.Dart;
 		}
 

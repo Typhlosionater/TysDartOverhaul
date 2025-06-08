@@ -5,13 +5,20 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.GameContent;
 
 
 namespace TysDartOverhaul.Projectiles.ConvertedDartProjectiles
 {
 	public class QueensStingerDartProjectile : ModProjectile
 	{
-		public override void SetDefaults()
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+        }
+
+        public override void SetDefaults()
 		{
 			Projectile.width = 10;
 			Projectile.height = 10;
@@ -22,7 +29,23 @@ namespace TysDartOverhaul.Projectiles.ConvertedDartProjectiles
 			Projectile.alpha = 255;
 		}
 
-		public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        public override bool PreDraw(ref Color lightColor)
+        {
+            //Red Afterimage
+            Texture2D texture = ModContent.Request<Texture2D>("TysDartOverhaul/Projectiles/ConvertedDartProjectiles/QueensStingerDartProjectile_Afterimage").Value;
+
+            Vector2 drawOrigin = new Vector2(TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
+            for (int k = 0; k < Projectile.oldPos.Length; k++)
+            {
+                Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+                Color color = Projectile.GetAlpha(lightColor) * (((float)(Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length) * 0.4f);
+                Main.EntitySpriteDraw(texture, drawPos + (Projectile.velocity * 0.18f), null, color, Projectile.rotation, drawOrigin, Projectile.scale * 1.3f, SpriteEffects.None, 0);
+            }
+
+            return base.PreDraw(ref lightColor);
+        }
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
 		{
 			//Inflicts 10 seconds on venom on hit enemies
 			target.AddBuff(BuffID.Venom, 10 * 60);
@@ -45,9 +68,12 @@ namespace TysDartOverhaul.Projectiles.ConvertedDartProjectiles
 				Projectile.alpha -= 25;
             }
 
-            if (Main.rand.Next(2) == 0)
+            if (Main.rand.Next(2) == 0 && Projectile.timeLeft <= 596)
             {
-                Dust.NewDustDirect(Projectile.position - Projectile.velocity, Projectile.width, Projectile.height, 147, 0f, 0f, 0, default(Color), 0.9f).noGravity = true;
+                int StingerDust = Dust.NewDust(Projectile.position - Projectile.velocity, Projectile.width, Projectile.height, 147, 0f, 0f, 0, default(Color), 0.9f);
+                Main.dust[StingerDust].position += Projectile.velocity * Main.rand.NextFloat(0f, 1f);
+                Main.dust[StingerDust].noGravity = true;
+                Main.dust[StingerDust].velocity *= 0.5f;
             }
         }
 

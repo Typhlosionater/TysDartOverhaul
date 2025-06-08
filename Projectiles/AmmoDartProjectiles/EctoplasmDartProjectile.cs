@@ -29,10 +29,10 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 			Projectile.extraUpdates = 1;
 		}
 
-		public override Color? GetAlpha(Color lightColor)
+        public override Color? GetAlpha(Color lightColor)
 		{
-			return Color.White;
-		}
+            return new Color(255 - Projectile.alpha, 255 - Projectile.alpha, 255 - Projectile.alpha, 255 - Projectile.alpha);
+        }
 
 		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
 		{

@@ -82,12 +82,13 @@ namespace TysDartOverhaul.Projectiles.ConvertedDartProjectiles
 			}
 
 			//Produces fire dust in flight
-			if (Projectile.timeLeft > 3)
+			if (Projectile.timeLeft > 3 && Projectile.timeLeft <= 597)
             {
 				for (int i = 0; i < 2; i++)
 				{
 					int FireDust = Dust.NewDust(Projectile.position, Projectile.width - 3, Projectile.height - 3, 6, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, default(Color), 2f);
-					Main.dust[FireDust].rotation += Main.rand.NextFloat(5f);
+                    Main.dust[FireDust].position += Projectile.velocity * Main.rand.NextFloat(0f, 1f);
+                    Main.dust[FireDust].rotation += Main.rand.NextFloat(5f);
 					Main.dust[FireDust].noGravity = true;
 					Main.dust[FireDust].velocity.X *= 0.3f;
 					Main.dust[FireDust].velocity.Y *= 0.3f;
