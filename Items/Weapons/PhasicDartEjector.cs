@@ -100,13 +100,13 @@ namespace TysDartOverhaul.Items.Weapons
 
 			Projectile.Center = ownerCenter + toMouse * 30f;
 			Projectile.rotation = toMouse.ToRotation();
-			Projectile.spriteDirection = Projectile.direction;
+			Projectile.spriteDirection = Projectile.direction = (toMouse.X > 0f).ToDirectionInt();
 
 			Projectile.timeLeft = 2;
 			Owner.ChangeDir(Projectile.direction);
 			Owner.heldProj = Projectile.whoAmI;
 			Owner.SetDummyItemTime(2);
-			Owner.itemRotation = MathHelper.WrapAngle(float.Atan2(toMouse.Y, toMouse.X));
+			Owner.itemRotation = MathHelper.WrapAngle(float.Atan2(toMouse.Y * Projectile.direction, toMouse.X * Projectile.direction));
 
 			int timeTillNextCharge = (int)(Owner.HeldItem.useTime * Owner.GetWeaponAttackSpeed(Owner.HeldItem));
 			chargeTimer++;
