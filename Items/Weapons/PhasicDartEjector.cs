@@ -114,13 +114,16 @@ namespace TysDartOverhaul.Items.Weapons
 				numCharges++;
 				chargeTimer = 0;
 
-				if (numCharges == 9)
+                if (numCharges % 2 != 0)
+                {
+                    SoundEngine.PlaySound(SoundID.Item15 with { Pitch = Utils.Remap(numCharges, 0f, 9f, -0.2f, 0.2f)}, Projectile.position);
+                }
+
+                if (numCharges == 9)
 				{
 					VisualsTimer = MaxChargeFlashTime;
                     SoundEngine.PlaySound(SoundID.Item115, Projectile.position);
                 }
-
-
 			}
 
 			if (Main.myPlayer == Projectile.owner && !Main.mouseLeft) {
@@ -139,7 +142,7 @@ namespace TysDartOverhaul.Items.Weapons
 			if (VisualsTimer >= timeForNextFrame) {
 				VisualsTimer = 0f;
 				GlowmaskFrame++;
-				if (GlowmaskFrame > 2) {
+                if (GlowmaskFrame > 2) {
 					GlowmaskFrame = 0;
 				}
 			}
