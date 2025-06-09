@@ -98,7 +98,7 @@ namespace TysDartOverhaul.Items.Weapons
 			Vector2 ownerCenter = Owner.RotatedRelativePoint(Owner.MountedCenter);
 			Vector2 toMouse = ownerCenter.DirectionTo(Main.MouseWorld);
 
-			Projectile.Center = ownerCenter + toMouse * 30f;
+			Projectile.Center = ownerCenter + toMouse * 20f;
 			Projectile.rotation = toMouse.ToRotation();
 			Projectile.spriteDirection = Projectile.direction = (toMouse.X > 0f).ToDirectionInt();
 
@@ -117,10 +117,13 @@ namespace TysDartOverhaul.Items.Weapons
 				if (numCharges == 9)
 				{
 					VisualsTimer = MaxChargeFlashTime;
-				}
+                    SoundEngine.PlaySound(SoundID.Item115, Projectile.position);
+                }
+
+
 			}
 
-			if (!Main.mouseLeft) {
+			if (Main.myPlayer == Projectile.owner && !Main.mouseLeft) {
 				Projectile.Kill();
 				return;
 			}
