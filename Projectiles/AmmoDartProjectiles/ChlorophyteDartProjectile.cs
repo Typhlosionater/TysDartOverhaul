@@ -57,9 +57,12 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
                 Main.dust[DeathDust].scale *= 0.60f;
             }
 
-			//spawn slash
-			Vector2 SlashSpawnlocation = new Vector2(1, 1).RotatedBy(MathHelper.ToRadians(Main.rand.Next(0, 360)));
-            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + (SlashSpawnlocation * 75), -SlashSpawnlocation * 5, ModContent.ProjectileType<AmmoDartEffects.ChlorophyteDartSlashProjectile>(), Projectile.damage / 3, 0f, Projectile.owner, Projectile.Center.X, Projectile.Center.Y);
+            //spawn slash
+            if (Projectile.owner == Main.myPlayer)
+            {
+                Vector2 SlashSpawnlocation = new Vector2(1, 1).RotatedBy(MathHelper.ToRadians(Main.rand.Next(0, 360)));
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + (SlashSpawnlocation * 75), -SlashSpawnlocation * 5, ModContent.ProjectileType<AmmoDartEffects.ChlorophyteDartSlashProjectile>(), Projectile.damage / 3, 0f, Projectile.owner, Projectile.Center.X, Projectile.Center.Y);
+            }
         }
 	}
 }

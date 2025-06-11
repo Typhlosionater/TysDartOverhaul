@@ -74,9 +74,13 @@ namespace TysDartOverhaul.Projectiles.AmmoDartEffects
             if (Projectile.ai[0] != -1 && Projectile.ai[1] != -1)
             {
                 SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
-                Vector2 TargetCentre = new Vector2(Projectile.ai[0], Projectile.ai[1]);
-                Vector2 SlashSpawnlocation = new Vector2(1, 1).RotatedBy(MathHelper.ToRadians(Main.rand.Next(0, 360)));
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), TargetCentre + (SlashSpawnlocation * 75), -SlashSpawnlocation * 5, ModContent.ProjectileType<AmmoDartEffects.ChlorophyteDartSlashProjectile>(), Projectile.damage, 0f, Projectile.owner, -1, -1);
+
+                if (Projectile.owner == Main.myPlayer)
+                {
+                    Vector2 TargetCentre = new Vector2(Projectile.ai[0], Projectile.ai[1]);
+                    Vector2 SlashSpawnlocation = new Vector2(1, 1).RotatedBy(MathHelper.ToRadians(Main.rand.Next(0, 360)));
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), TargetCentre + (SlashSpawnlocation * 75), -SlashSpawnlocation * 5, ModContent.ProjectileType<AmmoDartEffects.ChlorophyteDartSlashProjectile>(), Projectile.damage, 0f, Projectile.owner, -1, -1);
+                }
             }
         }
     }

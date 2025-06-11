@@ -89,18 +89,6 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
                 //Sound
                 SoundEngine.PlaySound(SoundID.Item17 with { Volume = 0.8f, Pitch = -0.8f}, Projectile.Center);
 
-                //Fires a random spread of 3 to 5 darts in 20 degrees
-                float numberProjectiles = 3 + Main.rand.Next(2);
-                numberProjectiles += Main.rand.Next(2);
-                float SpreadAngle = MathHelper.ToRadians(30);
-
-                for (int i = 0; i < numberProjectiles; i++)
-                {
-                    Vector2 PerturbedSpeed = Projectile.velocity.RotatedByRandom(SpreadAngle);
-                    PerturbedSpeed = PerturbedSpeed * Main.rand.NextFloat(0.85f, 1.15f);
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - Projectile.velocity, PerturbedSpeed, ModContent.ProjectileType<IchorDartReworked>(), Projectile.damage / 2, Projectile.knockBack / 2, Projectile.owner, 0, HitEnemy, -1);
-                }
-
                 //Dust Cone
                 for (int dustamount = 0; dustamount < 10; dustamount++)
                 {
@@ -110,6 +98,21 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
                     dustspeed = dustspeed.RotatedByRandom(MathHelper.ToRadians(30));
                     int Ichordustcone = Dust.NewDust(Projectile.position - Projectile.velocity, Projectile.width, Projectile.height, 170, dustspeed.X, dustspeed.Y, 100);
                     Main.dust[Ichordustcone].noGravity = true;
+                }
+
+                //Fires a random spread of 3 to 5 darts in 20 degrees
+                if (Projectile.owner == Main.myPlayer)
+                {
+                    float numberProjectiles = 3 + Main.rand.Next(2);
+                    numberProjectiles += Main.rand.Next(2);
+                    float SpreadAngle = MathHelper.ToRadians(30);
+
+                    for (int i = 0; i < numberProjectiles; i++)
+                    {
+                        Vector2 PerturbedSpeed = Projectile.velocity.RotatedByRandom(SpreadAngle);
+                        PerturbedSpeed = PerturbedSpeed * Main.rand.NextFloat(0.85f, 1.15f);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center - Projectile.velocity, PerturbedSpeed, ModContent.ProjectileType<IchorDartReworked>(), Projectile.damage / 2, Projectile.knockBack / 2, Projectile.owner, 0, HitEnemy, -1);
+                    }
                 }
             }
             else

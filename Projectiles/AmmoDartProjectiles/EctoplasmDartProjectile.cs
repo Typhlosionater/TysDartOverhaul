@@ -53,14 +53,18 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 				Main.dust[ImpactDust].noGravity = true;
 			}
 
-            //Spawns 1-3 ectobolts
-            int numberProjectiles = 1 + Main.rand.Next(2);
-            numberProjectiles = numberProjectiles + Main.rand.Next(2);
-            for (int i = 0; i < numberProjectiles; i++)
-            {
-                Vector2 EctoshardAngle = new Vector2(1, 1).RotatedBy(MathHelper.ToRadians(Main.rand.Next(0, 360)));
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, EctoshardAngle * 8, ModContent.ProjectileType<AmmoDartEffects.EctoplasmDartEctoboltProjectile>(), Projectile.damage / 3, 0f, Projectile.owner);
-            }
+			//Spawns 1-3 ectobolts
+			if (Projectile.owner == Main.myPlayer)
+			{
+				int numberProjectiles = 1 + Main.rand.Next(2);
+				numberProjectiles = numberProjectiles + Main.rand.Next(2);
+				for (int i = 0; i < numberProjectiles; i++)
+				{
+					Vector2 EctoshardAngle = new Vector2(1, 1).RotatedBy(MathHelper.ToRadians(Main.rand.Next(0, 360)));
+					Vector2 EctoshardSpeed = (EctoshardAngle * 10) * Main.rand.NextFloat(0.7f, 0.9f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, EctoshardSpeed, ModContent.ProjectileType<AmmoDartEffects.EctoplasmDartEctoboltProjectile>(), Projectile.damage / 3, 0f, Projectile.owner);
+				}
+			}
         }
 	}
 }

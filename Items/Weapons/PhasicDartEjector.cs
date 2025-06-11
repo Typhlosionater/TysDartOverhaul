@@ -14,14 +14,17 @@ namespace TysDartOverhaul.Items.Weapons
 {
 	public class PhasicDartEjector : ModItem
 	{
-		public static bool ConsumeAmmoFromProjHack = false;
-
 		public override bool IsLoadingEnabled(Mod mod)
 		{
 			return ModContent.GetInstance<TysDartOverhaulConfig>().AddNewDartguns;
 		}
 
-		public override void SetDefaults()
+        public override void SetStaticDefaults()
+        {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+        }
+
+        public override void SetDefaults()
 		{
 			Item.damage = 80;
 			Item.DamageType = DamageClass.Ranged;
@@ -45,9 +48,11 @@ namespace TysDartOverhaul.Items.Weapons
 			Item.useAmmo = AmmoID.Dart;
 		}
 
-		public override bool CanConsumeAmmo(Item ammo, Player player)
+        public static bool PDEConsumeAmmoFromProjHack = false;
+
+        public override bool CanConsumeAmmo(Item ammo, Player player)
 		{
-			return ConsumeAmmoFromProjHack;
+			return PDEConsumeAmmoFromProjHack;
 		}
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
@@ -94,7 +99,9 @@ namespace TysDartOverhaul.Items.Weapons
 			set => Projectile.localAI[1] = value;
 		}
 
-		public override void AI() {
+		public override void AI()
+		{
+			//Held Projectile stuff
 			Vector2 ownerCenter = Owner.RotatedRelativePoint(Owner.MountedCenter);
 			Vector2 toMouse = ownerCenter.DirectionTo(Main.MouseWorld);
 
@@ -108,6 +115,7 @@ namespace TysDartOverhaul.Items.Weapons
 			Owner.SetDummyItemTime(2);
 			Owner.itemRotation = MathHelper.WrapAngle(float.Atan2(toMouse.Y * Projectile.direction, toMouse.X * Projectile.direction));
 
+			//Charge Stuff
 			int timeTillNextCharge = (int)(Owner.HeldItem.useTime * Owner.GetWeaponAttackSpeed(Owner.HeldItem));
 			chargeTimer++;
 			if (chargeTimer >= timeTillNextCharge && numCharges < 9) {
@@ -116,7 +124,7 @@ namespace TysDartOverhaul.Items.Weapons
 
                 if (numCharges % 2 != 0)
                 {
-                    SoundEngine.PlaySound(SoundID.Item15 with { Pitch = Utils.Remap(numCharges, 0f, 9f, -0.2f, 0.2f)}, Projectile.position);
+                    SoundEngine.PlaySound(SoundID.Item15 with { Pitch = Utils.Remap(numCharges, 0f, 9f, -0.25f, 0.25f)}, Projectile.position); //15, 132
                 }
 
                 if (numCharges == 9)
@@ -158,9 +166,9 @@ namespace TysDartOverhaul.Items.Weapons
 
             SoundEngine.PlaySound(SoundID.Item92, Projectile.position);
 
-			PhasicDartEjector.ConsumeAmmoFromProjHack = true;
+			PhasicDartEjector.PDEConsumeAmmoFromProjHack = true;
 			Owner.PickAmmo(Owner.HeldItem, out int projToShoot, out float speed, out int damage, out float knockback, out int usedAmmoItemID);
-			PhasicDartEjector.ConsumeAmmoFromProjHack = false;
+			PhasicDartEjector.PDEConsumeAmmoFromProjHack = false;
 
 			if (Projectile.owner != Main.myPlayer)
 			{

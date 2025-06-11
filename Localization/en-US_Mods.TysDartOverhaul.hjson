@@ -79,7 +79,7 @@ Items: {
 
 	ClockworkBallista: {
 		DisplayName: Clockwork Ballista
-		Tooltip: 50% chance to not consume darts
+		Tooltip: 66% chance to not consume darts
 	}
 
 	DartGlove: {

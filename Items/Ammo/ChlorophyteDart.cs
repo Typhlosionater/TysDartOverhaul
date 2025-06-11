@@ -37,7 +37,7 @@ namespace TysDartOverhaul.Items.Ammo
 
 		public override void AddRecipes()
 		{
-			CreateRecipe(100)
+			CreateRecipe(150)
 				.AddIngredient(ItemID.ChlorophyteBar, 1)
 				.AddTile(TileID.MythrilAnvil)
                 .Register();

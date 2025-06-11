@@ -27,7 +27,7 @@ namespace TysDartOverhaul.Items.Weapons
 			Item.useTime = 34;
 			Item.useAnimation = 34;
 			Item.knockBack = 6f;
-			Item.crit += 3;
+			Item.crit += 6;
 
 			Item.width = 64;
 			Item.height = 32;

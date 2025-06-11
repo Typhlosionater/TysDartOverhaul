@@ -40,12 +40,12 @@ namespace TysDartOverhaul.Items.Ammo
 
 		public override void AddRecipes()
 		{
-			CreateRecipe(100)
+			CreateRecipe(150)
 				.AddIngredient(ItemID.SilverBar, 1)
 				.AddTile(TileID.Anvils)
                 .Register();
 
-			CreateRecipe(100)
+			CreateRecipe(150)
 				.AddIngredient(ItemID.TungstenBar, 1)
                 .AddTile(TileID.Anvils)
                 .Register();

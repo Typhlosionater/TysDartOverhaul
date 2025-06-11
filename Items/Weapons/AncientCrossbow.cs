@@ -19,7 +19,6 @@ namespace TysDartOverhaul.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
-			//AFTERIMAGES
 		}
 
 		public override void SetDefaults()
@@ -29,8 +28,9 @@ namespace TysDartOverhaul.Items.Weapons
 			Item.useTime = 40;
 			Item.useAnimation = 40;
 			Item.knockBack = 5.25f;
+            Item.crit += 4;
 
-			Item.width = 38;
+            Item.width = 38;
 			Item.height = 26;
 			Item.useStyle = ItemUseStyleID.Shoot;
 			Item.noMelee = true;

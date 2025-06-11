@@ -5,6 +5,10 @@ using Terraria.Audio;
 using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
+using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
+using System;
+using Terraria.GameContent;
 
 namespace TysDartOverhaul.Items.Weapons
 {
@@ -15,20 +19,25 @@ namespace TysDartOverhaul.Items.Weapons
 			return ModContent.GetInstance<TysDartOverhaulConfig>().AddNewDartguns;
 		}
 
-		public override void SetDefaults()
+        public override void SetStaticDefaults()
+        {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+        }
+
+        public override void SetDefaults()
 		{
 			Item.damage = 40;
 			Item.DamageType = DamageClass.Ranged;
-			Item.useTime = 32;
-			Item.useAnimation = 32;
+			Item.useTime = 6;
+			Item.useAnimation = 6;
 			Item.knockBack = 2.5f;
 
 			Item.width = 78;
 			Item.height = 36;
 			Item.useStyle = ItemUseStyleID.Shoot;
 			Item.noMelee = true;
-			Item.autoReuse = true;
-			//Item.UseSound = SoundID.Item36;
+            Item.noUseGraphic = true;
+            Item.autoReuse = true;
 
 			Item.value = Item.sellPrice(0, 40, 0, 0);
 			Item.rare = ItemRarityID.Yellow;
@@ -37,57 +46,112 @@ namespace TysDartOverhaul.Items.Weapons
 			Item.useAmmo = AmmoID.Dart;
 		}
 
-		public override bool? UseItem(Player player)
-		{
-			player.GetModPlayer<ClockworkBallistaPlayer>().UsedItem();
+        public static bool CBConsumeAmmoFromProjHack = false;
 
-			return base.UseItem(player);
-		}
-	}
+        public override bool CanConsumeAmmo(Item ammo, Player player)
+        {
+            bool ConsumeAmmo = false;
+            if (CBConsumeAmmoFromProjHack)
+            {
+                ConsumeAmmo = !(Main.rand.NextFloat() >= .33f);
+            }
+            return ConsumeAmmo;
+        }
 
-	public class ClockworkBallistaPlayer : ModPlayer
-	{
-		private const int MaxRampUp = 8;
-		private const int MaxInitialRampDownDelay = 45;
-		private const int MaxRampDownDelay = 15;
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            Projectile.NewProjectile(source, position, Vector2.Zero, ModContent.ProjectileType<ClockworkBallista_HeldProjectile>(), 0, 0, player.whoAmI);
 
-		private int _rampUp = 0;
-		private int _rampDownDelayTimer = 0;
+            return false;
+        }
+    }
 
-		public void UsedItem()
-		{
-			_rampUp = int.Clamp(_rampUp + 1, 0, MaxRampUp);
-			_rampDownDelayTimer = MaxInitialRampDownDelay;
-		}
+    public class ClockworkBallista_HeldProjectile : ModProjectile
+    {
+        private Player Owner => Main.player[Projectile.owner];
 
-		public override void PostUpdateMiscEffects()
-		{
-			_rampDownDelayTimer--;
-			if (_rampDownDelayTimer <= 0)
-			{
-				_rampUp = int.Clamp(_rampUp - 1, 0, MaxRampUp);
-				_rampDownDelayTimer = MaxRampDownDelay;
-			}
+        public override void SetDefaults()
+        {
+            Projectile.width = 78;
+            Projectile.height = 36;
+            Projectile.aiStyle = -1;
 
-			//Main.NewText("ramp: " + _rampUp);
-			//Main.NewText("delay: " + _rampDownDelayTimer);
-		}
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.tileCollide = false;
 
-		public override float UseTimeMultiplier(Item item)
-		{
-			if (item.ModItem is not ClockworkBallista)
-			{
-				return base.UseTimeMultiplier(item);
-			}
+            Projectile.ignoreWater = true;
+        }
 
-			return _rampUp switch
-			{
-				>= 0 and < 2 => 1f,
-				>= 2 and < 4 => 0.85f,
-				>= 4 and < 6 => 0.55f,
-				>= 6 and < 8 => 0.35f,
-				_ => 0.15f,
-			};
-		}
-	}
+        private int FirerateStage = 6;
+
+        private int FirerateTimer = 0;
+
+        private bool WhirrUpNoise = false;
+
+        public override void AI()
+        {
+            //Held Projectile Stuff
+            Vector2 ownerCenter = Owner.RotatedRelativePoint(Owner.MountedCenter);
+            Vector2 toMouse = ownerCenter.DirectionTo(Main.MouseWorld);
+
+            Projectile.Center = ownerCenter + toMouse * 25f;
+            Projectile.rotation = toMouse.ToRotation();
+            Projectile.spriteDirection = Projectile.direction = (toMouse.X > 0f).ToDirectionInt();
+            if (Projectile.spriteDirection == -1)
+            {
+                Projectile.rotation += MathHelper.ToRadians(180);
+            }
+
+            Projectile.timeLeft = 2;
+            Owner.ChangeDir(Projectile.direction);
+            Owner.heldProj = Projectile.whoAmI;
+            Owner.SetDummyItemTime(2);
+            Owner.itemRotation = MathHelper.WrapAngle(float.Atan2(toMouse.Y * Projectile.direction, toMouse.X * Projectile.direction));
+
+            if (Main.myPlayer == Projectile.owner && !Main.mouseLeft)
+            {
+                Projectile.Kill();
+                return;
+            }
+
+            //Noise Stuff
+            if (WhirrUpNoise == false)
+            {
+                SoundEngine.PlaySound(SoundID.Item149, Projectile.position);
+                WhirrUpNoise = true;
+            }
+
+            //Firerate stuff
+            int Firedelay = (int)(Owner.HeldItem.useTime * Owner.GetWeaponAttackSpeed(Owner.HeldItem)) * FirerateStage;
+
+            if (FirerateTimer >= Firedelay)
+            {
+                SoundEngine.PlaySound(SoundID.Item102, Projectile.position);
+
+                ClockworkBallista.CBConsumeAmmoFromProjHack = true;
+                Owner.PickAmmo(Owner.HeldItem, out int projToShoot, out float speed, out int damage, out float knockback, out int usedAmmoItemID);
+                ClockworkBallista.CBConsumeAmmoFromProjHack = false;
+
+                if (Projectile.owner == Main.myPlayer)
+                {
+                    Vector2 velocity = Owner.Center.DirectionTo(Main.MouseWorld) * speed;
+                    velocity = velocity.RotatedByRandom(MathHelper.ToRadians(9 - FirerateStage));
+                    velocity *= Main.rand.NextFloat(0.9f, 1f);
+                    Projectile.NewProjectile(Owner.GetSource_ItemUse_WithPotentialAmmo(Owner.HeldItem, usedAmmoItemID), Owner.Center, velocity, projToShoot, damage, knockback, Projectile.owner);
+                }
+
+                FirerateTimer = 0;
+                if (FirerateStage > 1)
+                {
+                    FirerateStage--;
+                }
+            }
+            else
+            {
+                FirerateTimer++;
+            }
+        }
+    }
 }

@@ -43,13 +43,16 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 		public override void OnKill(int timeLeft)
 		{
 			//Shrapnel effect
-			int numberProjectiles = 2 + Main.rand.Next(2);
-			numberProjectiles = numberProjectiles + Main.rand.Next(2);
-			for (int i = 0; i < numberProjectiles; i++)
+			if (Projectile.owner == Main.myPlayer)
 			{
-				Vector2 perturbedSpeed = new Vector2(Projectile.velocity.X, Projectile.velocity.Y).RotatedByRandom(MathHelper.ToRadians(18));
-				perturbedSpeed *= Main.rand.NextFloat(0.6f, 0.8f);
-				Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, perturbedSpeed, ModContent.ProjectileType<AmmoDartEffects.BoneDartShrapnelProjectile>(), Projectile.damage / 5, Projectile.knockBack / 5, Projectile.owner, 0, HitEnemy);
+				int numberProjectiles = 2 + Main.rand.Next(2);
+				numberProjectiles = numberProjectiles + Main.rand.Next(2);
+				for (int i = 0; i < numberProjectiles; i++)
+				{
+					Vector2 perturbedSpeed = new Vector2(Projectile.velocity.X, Projectile.velocity.Y).RotatedByRandom(MathHelper.ToRadians(18));
+					perturbedSpeed *= Main.rand.NextFloat(0.6f, 0.8f);
+					Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, perturbedSpeed, ModContent.ProjectileType<AmmoDartEffects.BoneDartShrapnelProjectile>(), Projectile.damage / 5, Projectile.knockBack / 5, Projectile.owner, 0, HitEnemy);
+				}
 			}
 
 			//Spawns dust and plays sound

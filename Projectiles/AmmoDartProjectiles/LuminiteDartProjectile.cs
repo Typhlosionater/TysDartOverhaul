@@ -80,9 +80,13 @@ namespace TysDartOverhaul.Projectiles.AmmoDartProjectiles
 		{
 			//Lunar Explosion effect
 			SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
-			int LunarExplosionProj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ProjectileID.LunarFlare, Projectile.damage, Projectile.knockBack, Projectile.owner, 0, -1f);
-			Main.projectile[LunarExplosionProj].DamageType = DamageClass.Ranged;
-			Main.projectile[LunarExplosionProj].rotation = Main.rand.NextFloat(0f, 10f);
+
+			if (Projectile.owner == Main.myPlayer)
+			{
+				int LunarExplosionProj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ProjectileID.LunarFlare, Projectile.damage, Projectile.knockBack, Projectile.owner, 0, -1f);
+				Main.projectile[LunarExplosionProj].DamageType = DamageClass.Ranged;
+				Main.projectile[LunarExplosionProj].rotation = Main.rand.NextFloat(0f, 10f);
+			}
 		}
 	}
 }
