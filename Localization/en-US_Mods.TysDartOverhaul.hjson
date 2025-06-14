@@ -64,7 +64,11 @@ Items: {
 
 	AirRifle: {
 		DisplayName: Air Rifle
-		Tooltip: Fires a high speed dart
+		Tooltip:
+			'''
+			Fires a high speed dart
+			'A certified classic.'
+			'''
 	}
 
 	AncientCrossbow: {

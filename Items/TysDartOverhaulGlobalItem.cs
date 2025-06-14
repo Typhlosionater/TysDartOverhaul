@@ -8,18 +8,22 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.DataStructures;
+using TysDartOverhaul.Items.Weapons;
 
 namespace TysDartOverhaul
 {
     public class TysDartOverhaulGlobalItem : GlobalItem
     {
         //Similar to molten quiver: If the player has a predator's bandana, basic darts they shoot are converted into poison darts
-        public override void ModifyShootStats(Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        public override void PickAmmo(Item weapon, Item ammo, Player player, ref int type, ref float speed, ref StatModifier damage, ref float knockback)
         {
             if (type == ModContent.ProjectileType<Projectiles.AmmoDartProjectiles.DartProjectile>() && player.GetModPlayer<TysDartOverhaulPlayer>().PoisonedDarts)
             {
-                type = ProjectileID.PoisonDartBlowgun;
-                damage += 2;
+                if (weapon.type != ModContent.ItemType<AncientCrossbow>() && weapon.type != ModContent.ItemType<Decapitator>())
+                {
+                    type = ProjectileID.PoisonDartBlowgun;
+                    damage += 2;
+                }
             }
         }
 

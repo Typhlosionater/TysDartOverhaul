@@ -128,7 +128,7 @@ namespace TysDartOverhaul.Items.Weapons
 
             if (FirerateTimer >= Firedelay)
             {
-                SoundEngine.PlaySound(SoundID.Item102, Projectile.position);
+                SoundEngine.PlaySound(SoundID.Item102 with { Volume = 0.6f }, Projectile.position);
 
                 ClockworkBallista.CBConsumeAmmoFromProjHack = true;
                 Owner.PickAmmo(Owner.HeldItem, out int projToShoot, out float speed, out int damage, out float knockback, out int usedAmmoItemID);

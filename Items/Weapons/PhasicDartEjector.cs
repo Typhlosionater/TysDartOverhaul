@@ -124,13 +124,13 @@ namespace TysDartOverhaul.Items.Weapons
 
                 if (numCharges % 2 != 0)
                 {
-                    SoundEngine.PlaySound(SoundID.Item15 with { Pitch = Utils.Remap(numCharges, 0f, 9f, -0.25f, 0.25f)}, Projectile.position); //15, 132
+                    SoundEngine.PlaySound(SoundID.Item15 with { Pitch = Utils.Remap(numCharges, 0f, 9f, -0.25f, 0.25f)}, Projectile.position);
                 }
 
                 if (numCharges == 9)
 				{
 					VisualsTimer = MaxChargeFlashTime;
-                    SoundEngine.PlaySound(SoundID.Item115, Projectile.position);
+                    SoundEngine.PlaySound(SoundID.Item158, Projectile.position);
                 }
 			}
 
