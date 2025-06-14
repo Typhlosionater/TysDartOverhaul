@@ -72,6 +72,9 @@ namespace TysDartOverhaul.Items.Weapons
 
 	public class PhasicDartEjector_HeldProjectile : ModProjectile
 	{
+		private Vector2? _shootDirection;
+		private int _shootHoldTimer;
+
 		private const float MaxChargeFlashTime = 50f;
 
 		private Player Owner => Main.player[Projectile.owner];
@@ -101,19 +104,46 @@ namespace TysDartOverhaul.Items.Weapons
 
 		public override void AI()
 		{
+			Projectile.timeLeft = 2;
+
+			if (numCharges >= 9) {
+				VisualsTimer--;
+				GlowmaskFrame = 3;
+			} else {
+				float numChargesNormalised = numCharges / 9f;
+				float timeForNextFrame = MathHelper.Lerp(15f, 4f, numChargesNormalised);
+
+				if (VisualsTimer >= timeForNextFrame) {
+					VisualsTimer = 0f;
+					GlowmaskFrame++;
+					if (GlowmaskFrame > 2) {
+						GlowmaskFrame = 0;
+					}
+				}
+
+				VisualsTimer++;
+			}
+
 			//Held Projectile stuff
 			Vector2 ownerCenter = Owner.RotatedRelativePoint(Owner.MountedCenter);
-			Vector2 toMouse = ownerCenter.DirectionTo(Main.MouseWorld);
+			Vector2 toMouse = _shootDirection ?? ownerCenter.DirectionTo(Main.MouseWorld);
 
 			Projectile.Center = ownerCenter + toMouse * 20f;
 			Projectile.rotation = toMouse.ToRotation();
 			Projectile.spriteDirection = Projectile.direction = (toMouse.X > 0f).ToDirectionInt();
 
-			Projectile.timeLeft = 2;
 			Owner.ChangeDir(Projectile.direction);
 			Owner.heldProj = Projectile.whoAmI;
 			Owner.SetDummyItemTime(2);
 			Owner.itemRotation = MathHelper.WrapAngle(float.Atan2(toMouse.Y * Projectile.direction, toMouse.X * Projectile.direction));
+
+			if (_shootDirection is not null)
+			{
+				_shootHoldTimer++;
+				if (_shootHoldTimer >= 10) {
+					Projectile.Kill();
+				}
+			}
 
 			//Charge Stuff
 			int timeTillNextCharge = (int)(Owner.HeldItem.useTime * Owner.GetWeaponAttackSpeed(Owner.HeldItem));
@@ -134,31 +164,14 @@ namespace TysDartOverhaul.Items.Weapons
                 }
 			}
 
-			if (Main.myPlayer == Projectile.owner && !Main.mouseLeft) {
-				Projectile.Kill();
-				return;
+			if (Main.myPlayer == Projectile.owner && !Main.mouseLeft && _shootDirection is null) {
+				_shootDirection = toMouse;
+				Shoot();
 			}
-
-			if (numCharges >= 9) {
-				VisualsTimer--;
-				return;
-			}
-			
-			float numChargesNormalised = numCharges / 9f;
-			float timeForNextFrame = MathHelper.Lerp(15f, 4f, numChargesNormalised);
-
-			if (VisualsTimer >= timeForNextFrame) {
-				VisualsTimer = 0f;
-				GlowmaskFrame++;
-                if (GlowmaskFrame > 2) {
-					GlowmaskFrame = 0;
-				}
-			}
-			
-			VisualsTimer++;
 		}
 
-		public override void OnKill(int timeLeft) {
+		private void Shoot()
+		{
 			if (numCharges < 3) {
                 SoundEngine.PlaySound(SoundID.Item13, Projectile.position);
                 return;
@@ -181,7 +194,7 @@ namespace TysDartOverhaul.Items.Weapons
 				velocity *= Main.rand.NextFloat(0.8f, 1f);
 				Projectile.NewProjectile(Owner.GetSource_ItemUse_WithPotentialAmmo(Owner.HeldItem, usedAmmoItemID), Owner.Center, velocity, projToShoot, damage, knockback, Projectile.owner);
 			}
-        }
+		}
 
 		private Asset<Texture2D> _glowmask;
 		private Asset<Texture2D> Glowmask => _glowmask ??= ModContent.Request<Texture2D>("TysDartOverhaul/Items/Weapons/PhasicDartEjector_HeldProjectile_Glowmask");
@@ -189,7 +202,6 @@ namespace TysDartOverhaul.Items.Weapons
 		private Asset<Texture2D> Flash => _flash ??= ModContent.Request<Texture2D>("TysDartOverhaul/Items/Weapons/PhasicDartEjector_HeldProjectile_Flash");
 
 		public override bool PreDraw(ref Color lightColor) {
-			Main.instance.LoadProjectile(Type);
 			Texture2D texture = TextureAssets.Projectile[Type].Value;
 
 			Vector2 drawPosition = Projectile.Center - Main.screenPosition;
