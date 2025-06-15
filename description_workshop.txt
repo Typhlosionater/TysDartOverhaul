@@ -1,13 +1,13 @@
 [h1]~ Ty's Dart Overhaul ~[/h1]
 
-Ty's Dart Overhaul is a small content mod made to expand on the vanilla dart subclass by adding multiple new dartguns spread throughout progression, new varied dart ammunition types and new dart sub-class accessories, with the goal of making darts more viable, fun and closer in line with bows and guns.
+Ty's Dart Overhaul is a small content mod made to expand on the vanilla dart subclass by adding multiple new dart launchers spread throughout progression, new varied dart ammunition types and new dart sub-class accessories, with the goal of making darts more viable, fun and closer in line with bows and guns.
 
 [hr][/hr]
 
 [h2]Contents:[/h2]
 [list]
-[*]14 new dartguns.
-[*]8 new dart ammunition types.
+[*]14 new dart launchers.
+[*]9 new dart ammunition types.
 [*]An infinite dart ammunition.
 [*]3 new accessories
 [*]A rework to vanilla darts to help with balance and functionality.
@@ -15,7 +15,7 @@ Ty's Dart Overhaul is a small content mod made to expand on the vanilla dart sub
 
 In addition, all of these features can be enabled or disabled via the internal config to fit the mod to your liking.
 
-Visit the [url=!!!!!!!!!!!!!!!!!!!!!!!!!!FORUMS LINK!!!!!!!!!!!!!!!!]Ty's Dart Overhaul forums page[/url] for a much more indepth description of all changes and additions this mod adds.
+Visit the [url=https://forums.terraria.org/index.php?threads/tys-dart-overhaul-improving-an-underappreciated-subclass.143558/]Ty's Dart Overhaul forums page[/url] for a much more indepth description of all changes and additions this mod adds.
 
 [hr][/hr]
 

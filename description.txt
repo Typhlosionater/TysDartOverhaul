@@ -1,9 +1,9 @@
 ~ Ty's Dart Overhaul ~
 
-Ty's Dart Overhaul is a small content mod made to expand on the vanilla dart subclass by adding multiple new dartguns spread throughout progression, new varied dart ammunition types and new dart sub-class accessories, with the goal of making darts more viable, fun and closer in line with bows and guns.
+Ty's Dart Overhaul is a small content mod made to expand on the vanilla dart subclass by adding multiple new dart launchers spread throughout progression, new varied dart ammunition types and new dart sub-class accessories, with the goal of making darts more viable, fun and closer in line with bows and guns.
 
 Contents:
- - 14 new dartguns.
+ - 14 new dart launchers.
  - 9 new dart ammunition types.
  - An infinite dart ammunition.
  - 3 new accessories

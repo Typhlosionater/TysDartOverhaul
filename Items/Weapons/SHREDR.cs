@@ -55,7 +55,7 @@ namespace TysDartOverhaul.Items.Weapons
 		public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
 		{
 			//inaccuracy
-			velocity = velocity.RotatedByRandom(MathHelper.ToRadians(10f + Main.rand.Next(11)));
+			velocity = velocity.RotatedByRandom(MathHelper.ToRadians(8f + Main.rand.Next(11)));
 			velocity = velocity * Main.rand.NextFloat(0.75f, 1f);
 		}
 	}
