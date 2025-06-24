@@ -64,11 +64,11 @@ Items: {
 
 	AirRifle: {
 		DisplayName: 气枪
-		 Tooltip:
+		Tooltip:
 			'''
 			发射高速的飞镖
 			'经实战验证的经典武器。'
-			''' 
+			'''
 	}
 
 	AncientCrossbow: {
@@ -123,20 +123,20 @@ Items: {
 
 	StingOperation: {
 		DisplayName: 毒刺行动
-		 Tooltip:
+		Tooltip:
 			'''
 			高速发射蜂王毒刺镖
 			33%几率不消耗飞镖
-			''' 
+			'''
 	}
 
 	TheStinger: {
 		DisplayName: 毒刺枪
-		 Tooltip:
+		Tooltip:
 			'''
 			快速发射毒刺飞镖
 			25%几率不消耗飞镖
-			''' 
+			'''
 	}
 
 	TripleDartGlove: {
@@ -146,31 +146,31 @@ Items: {
 
 	HuntsmanBandana: {
 		DisplayName: 猎手头巾
-		 Tooltip:
+		Tooltip:
 			'''
 			增加10%飞镖伤害并大幅增加飞镖击退力
 			20%几率不消耗飞镖
-			''' 
+			'''
 	}
 
 	AssassinsHeadband: {
 		DisplayName: 刺客头带
-		 Tooltip:
+		Tooltip:
 			'''
 			增加10%飞镖伤害并大幅增加飞镖击退力
 			20%几率不消耗飞镖
 			敌人不太可能瞄准你
-			''' 
+			'''
 	}
 
 	PredatorsBandana: {
 		DisplayName: 掠夺者头巾
-		 Tooltip:
+		Tooltip:
 			'''
 			增加10%飞镖伤害并大幅增加飞镖击退力
 			20%几率不消耗飞镖
 			将飞镖转化成毒镖
-			''' 
+			'''
 	}
 }
 
