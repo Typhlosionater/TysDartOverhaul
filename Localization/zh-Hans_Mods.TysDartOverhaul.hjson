@@ -1,0 +1,225 @@
+Buffs: {
+	CarapaceDartDebuff: {
+		DisplayName: 串刺
+		Tooltip: 严重出血
+		Description: 严重出血
+	}
+}
+
+Items: {
+	BoneDart: {
+		DisplayName: 骨镖
+		Tooltip: 碎裂成致命的碎片
+	}
+
+	CarapaceDart: {
+		DisplayName: 甲壳镖
+		Tooltip: 钉在敌人身上
+	}
+
+	ChlorophyteDart: {
+		DisplayName: 叶绿镖
+		Tooltip: 用自然之力斩击敌人
+	}
+
+	Dart: {
+		DisplayName: 飞镖
+		Tooltip: ""
+	}
+
+	EctoplasmDart: {
+		DisplayName: 灵气镖
+		Tooltip: 命中时生成追踪灵魂
+	}
+
+	EndlessDartCase: {
+		DisplayName: 无限飞镖盒
+		Tooltip: ""
+	}
+
+	FeatherDart: {
+		DisplayName: 羽毛镖
+		Tooltip: 不受重力影响
+	}
+
+	LuminiteDart: {
+		DisplayName: 夜明镖
+		Tooltip: "'你竟敢挡我的路...'"
+	}
+
+	ShimmerDart: {
+		DisplayName: 微光镖
+		Tooltip: 弹性极强
+	}
+
+	VenomDart: {
+		DisplayName: 毒液镖
+		Tooltip: 分裂成双螺旋飞镖
+	}
+
+	DartlingHelm: {
+		DisplayName: 飞镖头盔
+		Tooltip: ""
+	}
+
+	AirRifle: {
+		DisplayName: 气枪
+		 Tooltip:
+			'''
+			发射高速的飞镖
+			'经实战验证的经典武器。'
+			''' 
+	}
+
+	AncientCrossbow: {
+		DisplayName: 古代弩
+		Tooltip: 发射穿刺的死灵镖
+	}
+
+	Atlatl: {
+		DisplayName: 投镖器
+		Tooltip: ""
+	}
+
+	ClockworkBallista: {
+		DisplayName: 发条弩炮
+		Tooltip: 66%几率不消耗飞镖
+	}
+
+	DartGlove: {
+		DisplayName: 飞镖手套
+		Tooltip: ""
+	}
+
+	DartlingGun: {
+		DisplayName: 飞镖加特林
+		Tooltip: 50%几率不消耗飞镖
+	}
+
+	Decapitator: {
+		DisplayName: 刽子手
+		Tooltip: 发射两发平行的死灵镖
+	}
+
+	HellfireBlaster: {
+		DisplayName: 狱火爆破枪
+		Tooltip: 发射爆炸的炽焰镖
+	}
+
+	PhasicDartEjector: {
+		DisplayName: 相位飞镖发射器
+		Tooltip: 蓄力发射更多飞镖，最多发射9发
+	}
+
+	PoisonDartFrog: {
+		DisplayName: 镖毒蛙
+		Tooltip: 发射一片毒镖
+	}
+
+	SHREDR: {
+		DisplayName: S.H.R.E.D.R.
+		Tooltip: 50%几率不消耗飞镖
+	}
+
+	StingOperation: {
+		DisplayName: 毒刺行动
+		 Tooltip:
+			'''
+			高速发射蜂王毒刺镖
+			33%几率不消耗飞镖
+			''' 
+	}
+
+	TheStinger: {
+		DisplayName: 毒刺枪
+		 Tooltip:
+			'''
+			快速发射毒刺飞镖
+			25%几率不消耗飞镖
+			''' 
+	}
+
+	TripleDartGlove: {
+		DisplayName: 三重飞镖手套
+		Tooltip: ""
+	}
+
+	HuntsmanBandana: {
+		DisplayName: 猎手头巾
+		 Tooltip:
+			'''
+			增加10%飞镖伤害并大幅增加飞镖击退力
+			20%几率不消耗飞镖
+			''' 
+	}
+
+	AssassinsHeadband: {
+		DisplayName: 刺客头带
+		 Tooltip:
+			'''
+			增加10%飞镖伤害并大幅增加飞镖击退力
+			20%几率不消耗飞镖
+			敌人不太可能瞄准你
+			''' 
+	}
+
+	PredatorsBandana: {
+		DisplayName: 掠夺者头巾
+		 Tooltip:
+			'''
+			增加10%飞镖伤害并大幅增加飞镖击退力
+			20%几率不消耗飞镖
+			将飞镖转化成毒镖
+			''' 
+	}
+}
+
+Projectiles: {
+	ClockworkBallista_HeldProjectile.DisplayName: Clockwork Ballista Held Projectile
+	PhasicDartEjector_HeldProjectile.DisplayName: Phasic Dart Ejector Held Projectile
+	BoneDartShrapnelProjectile.DisplayName: 骨碎片
+	BoneDartProjectile.DisplayName: 骨镖
+	CarapaceDartProjectile.DisplayName: 甲壳镖
+	ChlorophyteDartProjectile.DisplayName: 叶绿镖
+	ChlorophyteDartSlashProjectile.DisplayName: 叶绿斩击
+	DartProjectile.DisplayName: 飞镖
+	EctoplasmDartProjectile.DisplayName: 灵气镖
+	EctoplasmDartEctoboltProjectile.DisplayName: 灵魂
+	FeatherDartProjectile.DisplayName: 羽毛镖
+	LuminiteDartProjectile.DisplayName: 夜明镖
+	ShimmerDartProjectile.DisplayName: 微光镖
+	VenomDartProjectile.DisplayName: 毒液镖
+	BlazingDartProjectile.DisplayName: 炽焰镖
+	NecroDartProjectile.DisplayName: 死灵镖
+	QueensStingerDartProjectile.DisplayName: 蜂王毒刺
+	StingerDartProjectile.DisplayName: 毒刺镖
+	IchorDartReworked.DisplayName: 灵液镖
+}
+
+Configs: {
+	TysDartOverhaulConfig: {
+		DisplayName: 模组配置
+
+		AddNewDartguns: {
+			Label: 加入模组飞镖发射器
+			Tooltip: 加入模组飞镖发射器。(默认开启)
+		}
+
+		AddNewDarts: {
+			Label: 加入模组飞镖
+			Tooltip: 加入模组飞镖弹药。(默认开启)
+		}
+
+		AddNewAccessories: {
+			Label: 加入模组飞镖饰品
+			Tooltip: 加入模组飞镖饰品。(默认开启)
+		}
+
+		VanillaDartChanges: {
+			Label: 修改原版飞镖
+			Tooltip: 修改原版飞镖的使用效果。(默认开启)
+		}
+	}
+}
+
+VanillaItemTooltips.PoisonDart: 命中时爆裂
