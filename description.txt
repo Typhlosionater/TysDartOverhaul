@@ -6,7 +6,7 @@ Contents:
  - 14 new dart launchers.
  - 9 new dart ammunition types.
  - An infinite dart ammunition.
- - 3 new accessories
+ - 3 new accessories.
  - A rework to vanilla darts to help with balance and functionality.
 
 In addition, all of these features can be enabled or disabled via the internal config to fit the mod to your liking.
@@ -14,4 +14,5 @@ In addition, all of these features can be enabled or disabled via the internal c
 Visit the Ty's Dart Overhaul forums page for a much more indepth description of all changes and additions this mod adds.
 
 Versions:
+v1.0.1 - Chinese localization, Calamity compatibility.
 v1.0 - Release.

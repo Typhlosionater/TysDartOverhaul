@@ -9,7 +9,7 @@ Ty's Dart Overhaul is a small content mod made to expand on the vanilla dart sub
 [*]14 new dart launchers.
 [*]9 new dart ammunition types.
 [*]An infinite dart ammunition.
-[*]3 new accessories
+[*]3 new accessories.
 [*]A rework to vanilla darts to help with balance and functionality.
 [/list]
 
@@ -25,4 +25,5 @@ Visit the [url=https://forums.terraria.org/index.php?threads/tys-dart-overhaul-i
 [hr][/hr]
 
 [h2]Versions:[/h2]
+v1.0.1 - Chinese localization, Calamity compatibility.
 v1.0 - Release.

@@ -1,6 +1,6 @@
 displayName = Ty's Dart Overhaul
 author = Typhlosionater
-version = 1.0
+version = 1.0.1
 homepage = https://forums.terraria.org/index.php?threads/tys-dart-overhaul-improving-an-underappreciated-subclass.143558/
 hideCode = true
 hideResources = true
